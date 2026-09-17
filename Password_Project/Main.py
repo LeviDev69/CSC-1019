@@ -18,7 +18,7 @@ def qinput(prompt):
 def innit():
   user = qinput("please input your name: ")
   tprint("Welcome to Project J.A.C.K. GPT If you want to quit at any time input q\n")
-  tprint("======================================================================================================\n")
+  tprint("====================================================================================================\n")
   tprint(f"Name: {user} \nCareer:  D.A.F.D.A.L.U.B (Dumpsters Association for Dumb Adults Like the Uttlery Broke)\n")
   tprint("Vehicle: Magic carpet\nAdress: Random Burger King Parking lot\n")
 
@@ -51,7 +51,20 @@ def game():
   else:
     shield_points = 20 
     sheild_health += shield_points
-   
+
+
+  tprint("Today while you were at work your co-worker, Jeffy, Climbed out of a dumpster covered in sludge. He had placed a milk jug on his back, and told you he was a snail. He asks you to throw salt on him and call him a bad boy\nOptions:\n1:Play Along\n2:Report him to HR\n3:Ignore him\n4:Play the Banjo in a summer breeze\n")
+  try:
+    option = int(qinput(""))
+    if option == 1:
+      tprint("Jeffy got scared and ran away.")
+      time.sleep(3)
+      tprint(" He came back from behind you and ate you\n")
+      sys.exit("GAME OVER: You died")
+  except Exception as e:
+    print(f"ERROR: {e}")
+
+
 if __name__ == "__main__":
   innit()
   game()
