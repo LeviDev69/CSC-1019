@@ -61,6 +61,11 @@ def game():
       time.sleep(3)
       tprint(" He came back from behind you and ate you\n")
       sys.exit("GAME OVER: You died")
+    elif option == 2:
+      tprint("You call HR to report him, as you raise your phone to your ear jeffy sees who you are calling and lunges at you, accidentally snaping your neck in the proccess\n")
+      sys.exit("GAME OVER: You died")
+    elif option == 3:
+      tprint("")
   except Exception as e:
     print(f"ERROR: {e}")
 
