@@ -13,7 +13,7 @@ def tprint(text):
   for character in text:
     sys.stdout.write(character)
     sys.stdout.flush()
-    time.sleep(0.04)
+    time.sleep(0.00)
     
 quit_statements = ["q", "quit", "exit", "exit game"]
 
@@ -22,8 +22,6 @@ def qinput(prompt):
   u = input()
   if u in quit_statements:
     sys.exit("User Exited")
-  if u == "s":
-    statcheck()
   return u
 
 def intput(prompt):
@@ -65,6 +63,7 @@ def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
     player_health -= enemy_damage / 2
     if player_health <= 0:
       sys.exit("GAME OVER: You died")
+      return False
     else:
       return fight(enemy, enemy_damage, enemy_health, player_health, player_damage)
   elif option == 3:
@@ -76,7 +75,7 @@ def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
 
 def game():
   user = qinput("please input your name: ")
-  tprint("Welcome to Project J.A.C.K. GPT. If you want to quit at any time input q to check your stats input s\n")
+  tprint("Welcome to Project J.A.C.K. GPT. If you want to quit at any time input q\n")
   statcheck(user)
 
   tprint("Today while you were at work your co-worker, Jeffy, climbed out of a dumpster covered in sludge. He had placed a milk jug on his back, and told you he was a snail. He asks you to throw salt on him and call him a bad boy\nOptions:\n1:Play Along\n2:Report him to HR\n3:Ignore him\n4:Play the Banjo in a summer breeze\n")
@@ -119,6 +118,11 @@ def game():
   tprint("after a while, as you pass a shady ally and a homeless tweaker jumps out of a dumpster and attacks you. You have no choice but to fight him\n")
   player["health"] += 5
   fight("Homeless Tweaker", 5, 10, player["health"], player["damage"])
+  tprint("you search the dumster the tweaker came out of and find a used needle(+10 to attack damage) and a cast iron pan(+10 to health)\n")
+  player["health"] += 10
+  player["damage"] +=10
+  tprint("You have left boring oregon and set off towards mexico on Interstate 69")
+
 
 
 if __name__ == "__main__":
