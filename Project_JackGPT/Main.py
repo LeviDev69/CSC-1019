@@ -52,7 +52,7 @@ def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
     enemy_health -= player_damage
     if enemy_health <= 0:
       tprint(f"You have defeated {enemy}\n")
-      return player_health
+      return True
     else:
       tprint(f"{enemy} attacks you for {enemy_damage} damage\n")
       player_health -= enemy_damage
@@ -120,6 +120,7 @@ def game():
   player["health"] += 5
   fight("Homeless Tweaker", 5, 10, player["health"], player["damage"])
 
-if __name__ == "__main__":
-  game()
 
+if __name__ == "__main__":
+  while True:
+    game()
