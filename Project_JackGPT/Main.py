@@ -13,7 +13,7 @@ def tprint(text):
   for character in text:
     sys.stdout.write(character)
     sys.stdout.flush()
-    time.sleep(0.00)
+    time.sleep(0.04)
     
 quit_statements = ["q", "quit", "exit", "exit game"]
 
