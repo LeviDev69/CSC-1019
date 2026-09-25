@@ -78,7 +78,7 @@ def game():
   tprint("Welcome to Project J.A.C.K. GPT. If you want to quit at any time input q\n")
   statcheck(user)
 
-  tprint("Today while you were at work your co-worker, Jeffy, climbed out of a dumpster covered in sludge. He had placed a milk jug on his back, and told you he was a snail. He asks you to throw salt on him and call him a bad boy\nOptions:\n1:Play Along\n2:Report him to HR\n3:Ignore him\n4:Play the Banjo in a summer breeze\n")
+  tprint("Today while you were at work your co-worker, Jeffy, climbed out of a dumpster covered in sludge. He had placed a milk jug on his back, and told you he was a snail. He asks you to throw salt on him and call him a bad boy\nOptions:\n1:Play Along\n2:Play the Banjo in a summer breeze\n3:Report him to HR\n4:Ignore him\n")
   try:
     option = intput("")
     if option == 1:
