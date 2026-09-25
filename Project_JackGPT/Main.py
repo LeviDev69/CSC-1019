@@ -125,7 +125,7 @@ def game():
   player["health"] += 10
   player["damage"] +=10
   tprint("You have left boring oregon and set off towards mexico on Interstate 69\n")
-  tprint("You find the road that lead to the tweaker civilization and you have to get in so you put on the homeless tweaker's clothes.\nWhen you get to the camp, you see a ton of the homeless tweakers making out with female musk-oxes. You try to join the party. You can either:\n1: Go make out with one of the oxes\n2: Have a fun night with an ox\n3: Go find a male ox name tom and bribe him to help you on your journey")
+  tprint("You find the road that lead to the tweaker civilization and you have to get in so you put on the homeless tweaker's clothes.\nWhen you get to the camp, you see a ton of the homeless tweakers making out with female musk-oxes. You try to join the party. You can either:\n1: Go make out with one of the oxes\n2: Have a fun night with an ox\n3: Go find a male ox name Tom and bribe him to help you on your journey.\n")
   try:
     option = intput("")
     if option == 1:
@@ -135,8 +135,9 @@ def game():
       tprint("You have a fun night with the ox but it senses you have an std and kicks you, killing you.\n")
       sys.exit("GAME OVER: You died")
     if option == 3:
-      tprint("You go find tom and give him a fun time, and afterword he comes with you on your journey.\n")
-      player["damage"] +=5
+      tprint("You go find tom and give him a fun time, and afterword he comes with you on your journey.(+10 to attack damage)\n")
+      player["damage"] += 10
+      Tom["true"] = True
   except Exception as e:
     print(f"ERROR: {e}")
 
