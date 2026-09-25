@@ -4,6 +4,10 @@ Jeffy = {
   "true": False, 
   "damage": 5
          }
+Tom = {
+  "true": False,
+  "damage": 10
+}
 player = {
   "health": 20,
   "damage": 5
@@ -34,7 +38,6 @@ def intput(prompt):
       return u
     except ValueError:
       tprint("Please input a number\n")
-
 def statcheck(user):
   tprint("====================================================================================================\n")
   tprint(f"Name: {user} \nCareer:  D.A.F.D.A.L.U. (Dumpsters Association for DumbAsses Like You)\n")
@@ -121,7 +124,22 @@ def game():
   tprint("you search the dumster the tweaker came out of and find a used needle(+10 to attack damage) and a cast iron pan(+10 to health)\n")
   player["health"] += 10
   player["damage"] +=10
-  tprint("You have left boring oregon and set off towards mexico on Interstate 69")
+  tprint("You have left boring oregon and set off towards mexico on Interstate 69\n")
+  tprint("You find the road that lead to the tweaker civilization and you have to get in so you put on the homeless tweaker's clothes.\nWhen you get to the camp, you see a ton of the homeless tweakers making out with female musk-oxes. You try to join the party. You can either:\n1: Go make out with one of the oxes\n2: Have a fun night with an ox\n3: Go find a male ox name tom and bribe him to help you on your journey")
+  try:
+    option = intput("")
+    if option == 1:
+      tprint("You have a nice kiss but nothing comes of it...\n")
+      option = intput("")
+    if option == 2:
+      tprint("You have a fun night with the ox but it senses you have an std and kicks you, killing you.\n")
+      sys.exit("GAME OVER: You died")
+    if option == 3:
+      tprint("You go find tom and give him a fun time, and afterword he comes with you on your journey.\n")
+      player["damage"] +=5
+  except Exception as e:
+    print(f"ERROR: {e}")
+
 
 
 
