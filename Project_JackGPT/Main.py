@@ -1,23 +1,17 @@
-import argparse
 import time, sys
 
 user = ""
 tprintDel = 0.07
-
-SECTION_ORDER = [
+DEBUG_SKIP = 0
+DEBUG_SECTIONS = [
   "jeffy_scene",
   "ex_scene",
   "family_scene",
   "fight_scene",
   "camp_scene",
-  "ending"
+  "portal_scene",
+  "flash_scene"
 ]
-DEBUG_CONFIG = {
-  "enabled": False,
-  "skip_steps": 0,
-  "jump_to": None,
-  "speed": 0.07
-}
 
 Jeffy = {
   "true": False, 
@@ -38,35 +32,26 @@ player = {
   "damage": 5
          }
 
-def set_debug_mode(enabled=False, speed=0.07, skip_steps=0, jump_to=None):
-  global tprintDel
-  DEBUG_CONFIG["enabled"] = enabled
-  DEBUG_CONFIG["skip_steps"] = skip_steps
-  DEBUG_CONFIG["jump_to"] = jump_to
-  DEBUG_CONFIG["speed"] = speed
-  tprintDel = speed
+def set_debug_mode(username):
+  global DEBUG_SKIP, tprintDel
+  DEBUG_SKIP = 0
+  tprintDel = 0.07
+
+  if not isinstance(username, str):
+    return
+
+  name = username.strip().lower()
+  if name.startswith("test") and name[4:].isdigit():
+    DEBUG_SKIP = int(name[4:])
+    tprintDel = 0.01
 
 
-def debug_skip(section_name):
-  if not DEBUG_CONFIG["enabled"]:
+def skip_section(section_name):
+  if DEBUG_SKIP <= 0:
     return False
-
-  if section_name not in SECTION_ORDER:
+  if section_name not in DEBUG_SECTIONS:
     return False
-
-  if DEBUG_CONFIG["jump_to"] is not None:
-    section_index = SECTION_ORDER.index(section_name)
-    jump_index = SECTION_ORDER.index(DEBUG_CONFIG["jump_to"])
-    if section_index < jump_index:
-      return True
-    DEBUG_CONFIG["jump_to"] = None
-
-  skip_count = DEBUG_CONFIG["skip_steps"]
-  if skip_count <= 0:
-    return False
-
-  section_index = SECTION_ORDER.index(section_name)
-  return section_index < skip_count
+  return DEBUG_SECTIONS.index(section_name) < DEBUG_SKIP
 
 
 def tprint(text, speed=None):
@@ -76,45 +61,6 @@ def tprint(text, speed=None):
     sys.stdout.write(character)
     sys.stdout.flush()
     time.sleep(delay)
-
-
-def is_test_username(name):
-  if not isinstance(name, str):
-    return False
-  cleaned = name.strip().lower()
-  if not cleaned.startswith("test"):
-    return False
-  suffix = cleaned[4:]
-  return suffix.isdigit()
-
-
-def get_test_skip_count(name):
-  if not is_test_username(name):
-    return 0
-  return int(name.strip().lower()[4:])
-
-
-def apply_user_debug_flags(username):
-  if is_test_username(username):
-    set_debug_mode(enabled=True, speed=0.01, skip_steps=get_test_skip_count(username), jump_to=None)
-    return True
-  set_debug_mode(enabled=False, speed=0.07, skip_steps=0, jump_to=None)
-  return False
-
-
-def load_debug_args(argv=None):
-  parser = argparse.ArgumentParser(add_help=False)
-  parser.add_argument("--debug", action="store_true")
-  parser.add_argument("--fast", action="store_true")
-  parser.add_argument("--skip", type=int, default=0)
-  parser.add_argument("--jump-to", choices=SECTION_ORDER)
-  parser.add_argument("--speed", type=float, default=None)
-  args = parser.parse_args(argv)
-
-  enabled = args.debug or args.fast or args.skip > 0 or args.jump_to is not None
-  speed_setting = 0.0 if args.fast else (args.speed if args.speed is not None else 0.07)
-  set_debug_mode(enabled=enabled, speed=speed_setting, skip_steps=args.skip, jump_to=args.jump_to)
-  return args
 
 
 quit_statements = ["q", "quit", "exit", "exit game"]
@@ -178,11 +124,11 @@ def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
 def game():
   global user, player, Jeffy, Tom, tprintDel
   user = qinput("please input your name: ")
-  apply_user_debug_flags(user)
+  set_debug_mode(user)
   tprint("Welcome to Project J.A.C.K. GPT. If you want to quit at any time input q\n")
   statcheck()
 
-  if not debug_skip("jeffy_scene"):
+  if not skip_section("jeffy_scene"):
     tprint(f"Today while you were at work your co-worker, {getJeffy()}, climbed out of a dumpster covered in sludge. He had placed a milk jug on his back, and told you he was a snail. He asks you to throw salt on him and call him a bad boy\nOptions:\n1:Play Along\n2:Play the Banjo in a summer breeze\n3:Report him to HR\n4:Ignore him\n")
     try:
       option = intput("")
@@ -203,7 +149,7 @@ def game():
     except Exception as e:
       print(f"ERROR: {e}")
 
-  if not debug_skip("ex_scene"):
+  if not skip_section("ex_scene"):
     try:
       tprint("Later that day you find your ex upside down in a dumpster passed out. \noptions:\n1: Call 911\n2: Call 988 because your sad\n3: Not your problem\n4: Feed her to jeffy\n")
       option = intput("")
@@ -222,16 +168,17 @@ def game():
     except Exception as e:
       print(f"ERROR: {e}")
 
-  if not debug_skip("family_scene"):
+  if not skip_section("family_scene"):
     tprint("Your shift has ended and you walk back to the Burger King parking lot. Your parents are gone and when you get closer you find a note laying in they're place, it reads: 'Property of the J.A.C.K.' You go back the the magic carpet and look at your parents side of it and  find a giant bulletin board full of propaganda and stuff, and see they found a superweapon called “JackGPT and they think it is the end of humanity. ")
     tprint("You decide to be heroic and also you miss your family so you go find them, but your magic carpet doesn’t have gas and you don’t feel like spending that much money so you go on foot. You take your trusty cardboard shield(+5 health) and hope to upgrade it along the way\n")
     tprint("after a while, as you pass a shady ally and a homeless tweaker jumps out of a dumpster and attacks you. You have no choice but to fight him\n")
     player["health"] += 5
 
-  if not debug_skip("fight_scene"):
+  if not skip_section("fight_scene"):
     fight("Homeless Tweaker", 5, 10, player["health"], player["damage"])
 
-  if not debug_skip("camp_scene"):
+  if not skip_section("camp_scene"):
+
     tprint("you search the dumster the tweaker came out of and find a used needle(+10 to attack damage) and a cast iron pan(+10 to health)\n")
     player["health"] += 10
     player["damage"] +=10
@@ -241,20 +188,23 @@ def game():
       option = intput("")
       if option == 3:
         tprint("You have a nice kiss but nothing comes of it...\n")
+        option = intput("")
       if option == 1:
         tprint("You go find tom and give him a fun time, and afterword he comes with you on your journey.(+10 to attack damage)\n")
         player["damage"] += 10
         Tom["true"] = True
-        option = intput("")
       if option == 2:
         tprint("You have a fun night with the ox but it senses you have an std and kicks you, killing you.\n")
         sys.exit("GAME OVER: You died")
     except Exception as e:
       print(f"ERROR: {e}")
 
-
-
-
+  if not skip_section("portal_scene"):
+    tprint("you ride Tom to the other side of the camp and find a pocket portal gaurded by a fat homeless dude. You must fight him to reach the portal.\n")
+    fight("Fat Homeless Dude", 10, 40, player["health"], player["damage"])
+    tprint("You enter the portal and a nauseating stobing effect happens for a few seconds. ")
+    time.sleep(3)
+  if not skip_section("flash_scene"):
+    tprint("You find yourself face to face with the flash, and before you can react he he picks you up and your smelly clothes burn off in the friction of speed as he takes you somewhere.\n")
 if __name__ == "__main__":
-  load_debug_args(sys.argv[1:])
   game()
