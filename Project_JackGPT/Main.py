@@ -2,8 +2,14 @@ import time, sys
 
 Jeffy = {
   "true": False, 
-  "damage": 5
+  "damage": 5,
+  "tier": 0,
+  "tiers": ["Jeffy", "Jeffry", "Jeffred", "Geoffry"]
          }
+def getJeffy():
+  Jeffy["name"] = Jeffy["tiers"][Jeffy["tier"]]
+  return (Jeffy["name"])
+
 Tom = {
   "true": False,
   "damage": 10
@@ -81,21 +87,21 @@ def game():
   tprint("Welcome to Project J.A.C.K. GPT. If you want to quit at any time input q\n")
   statcheck(user)
 
-  tprint("Today while you were at work your co-worker, Jeffy, climbed out of a dumpster covered in sludge. He had placed a milk jug on his back, and told you he was a snail. He asks you to throw salt on him and call him a bad boy\nOptions:\n1:Play Along\n2:Play the Banjo in a summer breeze\n3:Report him to HR\n4:Ignore him\n")
+  tprint(f"Today while you were at work your co-worker, {getJeffy()}, climbed out of a dumpster covered in sludge. He had placed a milk jug on his back, and told you he was a snail. He asks you to throw salt on him and call him a bad boy\nOptions:\n1:Play Along\n2:Play the Banjo in a summer breeze\n3:Report him to HR\n4:Ignore him\n")
   try:
     option = intput("")
     if option == 1:
-      tprint("Jeffy got scared and ran away.")
+      tprint(f"{getJeffy} got scared and ran away.")
       time.sleep(3)
       tprint(" He came back from behind you and ate you\n")
       sys.exit("GAME OVER: You died")
     elif option == 2:
-      tprint("You call HR to report him, as you raise your phone to your ear jeffy sees who you are calling and lunges at you, accidentally snaping your neck in the proccess\n")
+      tprint(f"You call HR to report him, as you raise your phone to your ear {getJeffy()} sees who you are calling and lunges at you, accidentally snaping your neck in the proccess\n")
       sys.exit("GAME OVER: You died")
     elif option == 3:
       tprint("Jeffy snarls at you as you walk away")
     else:
-      tprint("the music hypnotizes jeffy, he will now follow you. (+5 to all attack damage)\n")
+      tprint(f"the music hypnotizes {getJeffy()}, he will now follow you. (+5 to all attack damage)\n")
       Jeffy["true"] = True
       player["damage"] += 5
   except Exception as e:
@@ -108,11 +114,12 @@ def game():
     elif option == 2:
       tprint("You call 988 and they give you a pep talk\n")
     elif option == 3:
-      tprint("You walk away and jeffy eats her\n")
+      tprint(f"You walk away and {getJeffy()} eats her\n")
     else:
       tprint("Jeffy eats her\n")
       if Jeffy["true"] == True:
-        tprint("Jeffy is has evolved (+10 to all attack damage)\n")
+        Jeffy["tier"] += 1
+        tprint(f"Jeffy is has evolved to a {getJeffy()} (+10 to all attack damage)\n")
         Jeffy["damage"] += 5
   except Exception as e:
     print(f"ERROR: {e}")
@@ -125,7 +132,7 @@ def game():
   player["health"] += 10
   player["damage"] +=10
   tprint("You have left boring oregon and set off towards mexico on Interstate 69\n")
-  tprint("You find the road that lead to the tweaker civilization and you have to get in so you put on the homeless tweaker's clothes.\nWhen you get to the camp, you see a ton of the homeless tweakers making out with female musk-oxes. You try to join the party. You can either:\n1: Go make out with one of the oxes\n2: Have a fun night with an ox\n3: Go find a male ox name Tom and bribe him to help you on your journey.\n")
+  tprint("You find the road that lead to the tweaker civilization and you have to get in so you put on the homeless tweaker's clothes.\nWhen you get to the camp, you see a ton of the homeless tweakers making out with female musk-oxes. You try to join the party. You can either:\n1: Go make out with one of the oxes\n2: Have a fun night with an ox\n1: Go find a male ox name Tom and bribe him to help you on your journey.\n")
   try:
     option = intput("")
     if option == 1:
