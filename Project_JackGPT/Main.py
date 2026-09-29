@@ -19,7 +19,8 @@ DEBUG_SECTIONS = [
   "flash_scene",
   "farm_scene",
   "hawaii_volcano_scene", 
-  "chiapapas_scene_1"
+  "chiapapas_scene_1",
+  "Headquarters_1"
 ]
 
 Jeffy = {
@@ -59,6 +60,9 @@ def set_debug_mode(username):
     tprintDel = 0.01
     if DEBUG_SKIP > 0 and not Jeffy["true"]:
       Jeffy["true"] = True
+      Key1 = True
+      Key2 = True
+      Key3 = True
       player["damage"] += 5
 
 
@@ -158,28 +162,7 @@ def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
   else:
     tprint("Invalid option\n")
     return fight(enemy, enemy_damage, enemy_health, player_health, player_damage)
-keys = [
-  False,
-  False,
-  False
-]
 
-def get_key(index):
-  if index < 0 or index >= len(keys):
-    return False
-  return keys[index]
-
-def set_key(index, value):
-  if index < 0 or index >= len(keys):
-    return False
-  keys[index] = value
-  return True
-
-def check_keys():
-  if all(keys):
-    return True
-  else:
-    return False
 
 def game():
   global user, player, Jeffy, Tom, tprintDel
@@ -322,7 +305,23 @@ def game():
       elif option == "2":
         tprint("You ignore your hunger and continue towards the J.A.C.K headquarters, where you collapse from exhaustion.")
         sys.exit("GAME OVER: You died")
-    
+    if not skip_section("Headquarters_1"):
+      tprint("You arrive at the J.A.C.K headquarters and are greeted by a big metal door with a keyhole.\nYou can either:\n1. Bang you head on the door and try to break it\n2. Go ask wilbur if he knows where they are\n3. Use your tounge to try to lockpick it")
+      option = input("")
+      if option == "1":
+        tprint("You bang your head on the door and try to break it, but all it gives you is heavy brain damage.")
+        sys.exit("!)!(*!&#(*&!)6")
+      elif option == "2":
+        tprint("You go ask Wilbur if he knows where they are.")
+        if Wilbur["true"] == True:
+          tprint("Wilbur tells you that there is one in montana, new york, and florida.")
+        else:
+          tprint("Wilbur is not with you, it takes 2 minutes to find him.")
+          time.sleep(120)
+          tprint("Wilbur tells you that there is one in montana, new york, and florida.")
+      elif option == "3":
+        tprint("You use your tongue to try to lockpick it, but it fails and you get electrocuted by the powered door.")
+        sys.exit("GAME OVER: You died")
       
 if __name__ == "__main__":
   game()
