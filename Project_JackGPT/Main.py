@@ -12,7 +12,8 @@ DEBUG_SECTIONS = [
   "portal_scene",
   "flash_scene",
   "farm_scene",
-  "hawaii_volcano_scene"
+  "hawaii_volcano_scene", 
+  "chiapapas_scene_1"
 ]
 
 Jeffy = {
@@ -50,6 +51,9 @@ def set_debug_mode(username):
   if name.startswith("test") and name[4:].isdigit():
     DEBUG_SKIP = int(name[4:])
     tprintDel = 0.01
+    if DEBUG_SKIP > 0 and not Jeffy["true"]:
+      Jeffy["true"] = True
+      player["damage"] += 5
 
 
 def skip_section(section_name):
@@ -126,6 +130,28 @@ def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
   else:
     tprint("Invalid option\n")
     return fight(enemy, enemy_damage, enemy_health, player_health, player_damage)
+keys = [
+  False,
+  False,
+  False
+]
+
+def get_key(index):
+  if index < 0 or index >= len(keys):
+    return False
+  return keys[index]
+
+def set_key(index, value):
+  if index < 0 or index >= len(keys):
+    return False
+  keys[index] = value
+  return True
+
+def check_keys():
+  if all(keys):
+    return True
+  else:
+    return False
 
 def game():
   global user, player, Jeffy, Tom, tprintDel
@@ -244,7 +270,7 @@ def game():
       tprint("You run away from the volcano and survive, but you are still sunburned and die from too much social interaction.")
     elif option == "3":
       tprint("When you stare into the sun, you are blinded and stumble into the volcano at the perfect time, getting blown into Chipapas, Mexico with all of your companions, a short taxi ride away from J.A.C.K headquarters.")
-  if not skip_section("chipapas_scene_1"):
+  if not skip_section("chiapapas_scene_1"):
     if Jeffy["true"]:
       tprint(f"You arrive in Chipapas, Mexico, and find yourself very close to the J.A.C.K headquarters. You can feel jeffy tugging on his leash and he is trying to go towards the market. He is seemingly very hungry, but you are so very close to the headquarters where your parents are.\nYou can:\n1: Continue and ignore Jeffy's hunger\n2: Troll Jeffy and make him starve but eat something yourself\n3: Take Jeffy to the market and feed him.")
       option = input("")
@@ -254,9 +280,19 @@ def game():
         tprint("You troll Jeffy and make him starve, but you eat something yourself. He gets very angry and kills you and calls it ragebait.")
         sys.exit("GAME OVER: You died")
       elif option == "3":
-        tprint("You feed Jeffy and he evolves!")
+        tprint("You feed Jeffy and he evolves!\n")
         Jeffy["tier"] += 1
-        print 
+        damage += 15
+        tprint(f"Jeffy is now tier {getJeffy()}!")
+    else:
+      tprint("You arrive in Chipapas, Mexico, and find yourself very close to the J.A.C.K headquarters. You feel your stomach rumble and might collaspe because you havn't eaten since you left on your journey. You can either:\n1: Eat and increase you health\n2: Ignore your hunger and continue towards the J.A.C.K headquarters")
+      option = input("")
+      if option == "1":
+        tprint("You eat and increase your health.")
+        health += 15
+      elif option == "2":
+        tprint("You ignore your hunger and continue towards the J.A.C.K headquarters, where you collapse from exhaustion.")
+        sys.exit("GAME OVER: You died")
     
       
 if __name__ == "__main__":
