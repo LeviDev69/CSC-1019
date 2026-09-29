@@ -234,7 +234,7 @@ def game():
     if Tom["true"] and Jeffy["true"]:
       tprint("You ride Tom and Jeffy to Hawaii, because all this adventure is tiring and you all need a break.")
     else:
-      tprint("You find a local sea turtle and ride it to hawaii, because you need a break.")
+      tprint("\nYou find a local sea turtle and ride it to hawaii, because you need a break.")
     tprint("\nWhen you aririve in Hawaii, you are greeted by the poluted beaches and the sunburn. You get the brilliant idea to jump in the volcano.\nYou can either:\n1: Jump in the volcano\n2: Run away from the volcano\n3: Stare into the sun\n")
     option = input("")
     if option == "1":
