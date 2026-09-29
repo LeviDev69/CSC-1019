@@ -11,7 +11,8 @@ DEBUG_SECTIONS = [
   "camp_scene",
   "portal_scene",
   "flash_scene",
-  "farm_scene"
+  "farm_scene",
+  "hawaii_volcano_scene"
 ]
 
 Jeffy = {
@@ -212,7 +213,7 @@ def game():
   if not skip_section("flash_scene"):
     tprint("You find yourself face to face with the flash, and before you can react he he picks you up and your smelly clothes burn off in the friction of speed as he takes you somewhere.\n")
   if not skip_section("farm_scene"):
-    tprint("When you arrive, he throws your blazing body in a lake, where you swim back to shore. The floor falls from under you and wilbur the pig starts investigating you and trying to figure out why all of Charlotte's kids have pigs heads\nHe thinks you are the father because of how ugly you are.\nYou can either:\n1: Fight him for your girl\n2: Admit that you are the father\n3: Examine yourself in a mirror\n4: Explain biology to Wilbur")
+    tprint("When you arrive, he throws your blazing body in a lake, where you swim back to shore. The floor falls from under you and wilbur the pig starts investigating you and trying to figure out why all of Charlotte's kids have pigs heads\nHe thinks you are the father because of how ugly you are.\nYou can either:\n1: Fight him for your girl\n2: Admit that you are the father\n3: Examine yourself in a mirror\n4: Explain biology to Wilbur\n")
     player["health"] += 15
     option = intput("")
     if option == 1:
@@ -229,6 +230,20 @@ def game():
     elif option == 4:
       tprint("Wilbur is a pig, and he does not understand biology. He beats you to death.")
       sys.exit("GAME OVER: You died")
-    
+  if not skip_section("hawaii_volcano_scene"):
+    if Tom["true"] and Jeffy["true"]:
+      tprint("You ride Tom and Jeffy to Hawaii, because all this adventure is tiring and you all need a break.")
+    else:
+      tprint("You find a local sea turtle and ride it to hawaii, because you need a break.")
+    tprint("\nWhen you aririve in Hawaii, you are greeted by the poluted beaches and the sunburn. You get the brilliant idea to jump in the volcano.\nYou can either:\n1: Jump in the volcano\n2: Run away from the volcano\n3: Stare into the sun\n")
+    option = input("")
+    if option == "1":
+      tprint("You jump into the volcano and are too early, getting vaporized.")
+      sys.exit("GAME OVER: You died")
+    elif option == "2":
+      tprint("You run away from the volcano and survive, but you are still sunburned and die from too much social interaction.")
+    elif option == "3":
+      tprint("When you stare into the sun, you are blinded and stumble into the volcano at the perfect time, getting blown into Chipapas, Mexico, a short taxi ride away from J.A.C.K headquarters.")
+
 if __name__ == "__main__":
   game()
