@@ -1,7 +1,13 @@
-import time, sys
+import os
+import select
+import sys
+import termios
+import time
+import tty
 
 user = ""
 tprintDel = 0.07
+pending_input = ""
 DEBUG_SKIP = 0
 DEBUG_SECTIONS = [
   "jeffy_scene",
@@ -65,19 +71,41 @@ def skip_section(section_name):
 
 
 def tprint(text, speed=None):
-  global tprintDel
+  global pending_input, tprintDel
   delay = tprintDel if speed is None else speed
-  for character in text:
-    sys.stdout.write(character)
-    sys.stdout.flush()
-    time.sleep(delay)
+  if not sys.stdin.isatty():
+    for character in text:
+      sys.stdout.write(character)
+      sys.stdout.flush()
+      time.sleep(delay)
+    return
+
+  input_fd = sys.stdin.fileno()
+  old_settings = termios.tcgetattr(input_fd)
+  try:
+    tty.setcbreak(input_fd)
+    for index, character in enumerate(text):
+      sys.stdout.write(character)
+      sys.stdout.flush()
+      ready, _, _ = select.select([input_fd], [], [], delay)
+      if ready:
+        key = os.read(input_fd, 1)
+        if key in (b"\n", b"\r"):
+          sys.stdout.write(text[index + 1:])
+          sys.stdout.flush()
+          break
+        pending_input += key.decode(errors="replace")
+  finally:
+    termios.tcsetattr(input_fd, termios.TCSADRAIN, old_settings)
 
 
 quit_statements = ["q", "quit", "exit", "exit game"]
 
 def qinput(prompt):
+  global pending_input
   tprint(prompt)
-  u = input()
+  u = pending_input + input()
+  pending_input = ""
   if u in quit_statements:
     sys.exit("User Exited")
   return u
