@@ -23,7 +23,11 @@ Jeffy = {
 def getJeffy():
   Jeffy["name"] = Jeffy["tiers"][Jeffy["tier"]]
   return (Jeffy["name"])
-
+Wilbur = {
+  "true": False,
+  "damage": 15
+}
+  
 Tom = {
   "true": False,
   "damage": 10
@@ -208,14 +212,23 @@ def game():
   if not skip_section("flash_scene"):
     tprint("You find yourself face to face with the flash, and before you can react he he picks you up and your smelly clothes burn off in the friction of speed as he takes you somewhere.\n")
   if not skip_section("farm_scene"):
-    tprint("")
+    tprint("When you arrive, he throws your blazing body in a lake, where you swim back to shore. The floor falls from under you and wilbur the pig starts investigating you and trying to figure out why all of Charlotte's kids have pigs heads\nHe thinks you are the father because of how ugly you are.\nYou can either:\n1: Fight him for your girl\n2: Admit that you are the father\n3: Examine yourself in a mirror\n4: Explain biology to Wilbur")
     player["health"] += 15
-    tprint("decision")
     option = intput("")
     if option == 1:
+      
+      fight("Wilbur the Pig", 15, 30, player["health"], player["damage"])
+      tprint("You interrogate Wilbur the pig after defeating him, finding out that the superweapon is in Chipapas, Mexico because he was kidnapped to turn into jerkey but he escaped with a stolen helicopter.")
     elif option == 2:
+      tprint("You admit that you are the father of Wilbur's piglets, and he beats you to death brutally.")
+      sys.exit("GAME OVER: You died")
     elif option == 3:
+      tprint("You look at yourself in a mirror to extinguish your self doubts, and wilbur catches a glance of himself and sees that he looks like the children.\nHe appologizes and as an appology he gives you the flash's suit. He also decides to come with you to get revenge from them trying to turn him into jerkey. (+ 15 damage)")
+      player["health"] += 15
+      Wilbur["true"] = True
     elif option == 4:
+      tprint("Wilbur is a pig, and he does not understand biology. He beats you to death.")
+      sys.exit("GAME OVER: You died")
     
 if __name__ == "__main__":
   game()
