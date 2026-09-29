@@ -10,7 +10,8 @@ DEBUG_SECTIONS = [
   "fight_scene",
   "camp_scene",
   "portal_scene",
-  "flash_scene"
+  "flash_scene",
+  "farm_scene"
 ]
 
 Jeffy = {
@@ -206,5 +207,15 @@ def game():
     time.sleep(3)
   if not skip_section("flash_scene"):
     tprint("You find yourself face to face with the flash, and before you can react he he picks you up and your smelly clothes burn off in the friction of speed as he takes you somewhere.\n")
+  if not skip_section("farm_scene"):
+    tprint("")
+    player["health"] += 15
+    tprint("decision")
+    option = intput("")
+    if option == 1:
+    elif option == 2:
+    elif option == 3:
+    elif option == 4:
+    
 if __name__ == "__main__":
   game()
