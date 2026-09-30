@@ -21,6 +21,7 @@ DEBUG_SECTIONS = [
   "hawaii_volcano_scene", 
   "chiapapas_scene_1",
   "Headquarters_Exterior_Scene1",
+  "Montana_Scene",
   "headquarters_scene1"
 ]
 
@@ -329,8 +330,24 @@ def game():
     elif option == "3":
       tprint("You try to pick the lock with your tongue, but fail and get electrocuted by the powered door.")
       sys.exit("GAME OVER: You died")
-      
-  
+
+  if not skip_section("Montana_Scene"):    
+    tprint("You travel to Montana and find a Large key guarded by a small army of Flock cameras, They are invading your privacy You can..\nOptions:\n1.Take a bath in RUST-OLEUM 214944 and go at night so they cannot see you \n2.Send Jeffy to eat them\n3.Hire a nearby flock of pigeons to swarm the cameras\n4.Fight the cameras\n")
+    if option == "1":
+      tprint("You take a bath in RUST-OLEUM 214944 and go at night so they cannot see you, You sneak past the cameras and grab the key. As you go to leave the cameras sense the bluetooth on your phone and shoot blindly, Killing a small family in the process.\n")
+      key1 = True
+    elif option == "2":
+      tprint("You send Jeffy to eat the cameras, He eats them all, you get the key successfully\n")
+      tprint(f"{getJeffy()} has evolved!\n")
+      Jeffy["tier"] += 1
+      player["damage"] += 15
+      key1 = True
+      tprint(f"{getJeffy()} has evolved to the next tier!\n")
+    elif option == "3":
+      tprint("The flock cameras try to shoot the pigeons but miss, one hits a forest and sets the whole state of Oregon on fire, another misses and hit you")
+      sys.exit("GAME OVER: You Died")
+    elif option == "4":
+      fight("Flock Camera Army", 80, 100, player["health"], player["damage"])
   
   
   
