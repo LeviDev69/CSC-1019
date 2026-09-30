@@ -20,7 +20,8 @@ DEBUG_SECTIONS = [
   "farm_scene",
   "hawaii_volcano_scene", 
   "chiapapas_scene_1",
-  "Headquarters_1"
+  "Headquarters_1",
+  "headquarters_scene"
 ]
 
 Jeffy = {
@@ -295,7 +296,7 @@ def game():
         tprint(f"You feed {getJeffy()}, and he evolves!\n")
         Jeffy["tier"] += 1
         player["damage"] += 15
-        tprint(f"{getJeffy()} has evolved to the next tier!\n")
+        tprint(f"{getJeffy()} has evolved to the next tier!")
     else:
       tprint("You arrive in Chipapas, Mexico, very close to J.A.C.K. headquarters. Your stomach rumbles, and you might collapse because you have not eaten since the journey began.\n\nOptions:\n1. Eat to restore your health.\n2. Ignore your hunger and continue toward headquarters.\n")
       option = input("")
@@ -305,29 +306,24 @@ def game():
       elif option == "2":
         tprint("You ignore your hunger and continue toward J.A.C.K. headquarters, but collapse from exhaustion.")
         sys.exit("GAME OVER: You died")
-  if not skip_section("Headquarters_1"):
-    tprint("You arrive at J.A.C.K. headquarters and find a large metal door with a keyhole.\n\nOptions:\n1. Bang your head against the door and try to break it.\n2. Ask Wilbur if he knows where your parents are.\n3. Try to pick the lock with your tongue.\n")
+  if not skip_section("headquarters_scene"):
+    tprint("You arrive at the J.A.C.K. headquarters when a flying pig flies down and attacks you. You have no choice but to fight it.\n")
+    fight("Flying Pig", 20, 50, player["health"], player["damage"])
+    tprint("You enter the J.A.C.K. headquarters and a group of very drunk scientists are there. They look you up and down, and decide you are a threat to their work. You have no choice but to fight them.\n")
+    fight("Drunk Scientists", 25, 20, player["health"], player["damage"])
+    tprint("Now that the scientists are gone, you search the large lobby room, and find 3 doors.\nOptions:\n1:A door straight in front of you after entering, with a label employees only\n2:Up on a second floor after stairs, kind of hidden\n3:Off to the left, guarded by Donald Trump\n")
     option = input("")
     if option == "1":
-      tprint("You bang your head against the door. It does not budge, and you suffer severe brain damage.")
-      sys.exit("!)!(*!&#(*&!)6")
-    elif option == "2":
-      tprint("You ask Wilbur if he knows where your parents are.\n")
-      if Wilbur["true"] == True:
-        tprint("Wilbur tells you that there is one in Montana, New York, and Florida.\n")
-      else:
-        tprint("Searching for Wilbur...\n")
-        for remaining_seconds in range(120, -1, -1):
-          minutes, seconds = divmod(remaining_seconds, 60)
-          print(f"\rTime remaining: {minutes}:{seconds:02}", end="", flush=True)
-          if remaining_seconds:
-            time.sleep(1)
-        print()
-        tprint("Wilbur was not with you, so it took two minutes to find him.\n")
-        tprint("Wilbur tells you that there is one in Montana, New York, and Florida.\n")
-    elif option == "3":
-      tprint("You try to pick the lock with your tongue, but fail and get electrocuted by the powered door.")
+      tprint("you go through and a ton of robots overrun you, brutally beating you to death.\n")
       sys.exit("GAME OVER: You died")
+    elif option == "2":
+      tprint("a secret trap triggers behind you, you feel an arrow straight into your back, it is coated in a fast acting poison")
+      time.sleep(3)
+      sys.exit("GAME OVER: You died")
+    elif option == "3":
+      tprint("As you try to go through Donold Trump notices you and uses his ult, “you are going to die, everyone is talking about it quite frankly”")
+    elif option == "4":
+      tprint("You found a secret door, you continue the a dimly lit passage and find a room with a locked door, you realise you are going to need a key. You head back out to the lobby and out the front doors, ")
       
 if __name__ == "__main__":
   game()
