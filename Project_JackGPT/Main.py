@@ -305,29 +305,29 @@ def game():
       elif option == "2":
         tprint("You ignore your hunger and continue toward J.A.C.K. headquarters, but collapse from exhaustion.")
         sys.exit("GAME OVER: You died")
-    if not skip_section("Headquarters_1"):
-      tprint("You arrive at J.A.C.K. headquarters and find a large metal door with a keyhole.\n\nOptions:\n1. Bang your head against the door and try to break it.\n2. Ask Wilbur if he knows where your parents are.\n3. Try to pick the lock with your tongue.\n")
-      option = input("")
-      if option == "1":
-        tprint("You bang your head against the door. It does not budge, and you suffer severe brain damage.")
-        sys.exit("!)!(*!&#(*&!)6")
-      elif option == "2":
-        tprint("You ask Wilbur if he knows where your parents are.\n")
-        if Wilbur["true"] == True:
-          tprint("Wilbur tells you that there is one in Montana, New York, and Florida.\n")
-        else:
-          tprint("Searching for Wilbur...\n")
-          for remaining_seconds in range(120, -1, -1):
-            minutes, seconds = divmod(remaining_seconds, 60)
-            print(f"\rTime remaining: {minutes}:{seconds:02}", end="", flush=True)
-            if remaining_seconds:
-              time.sleep(1)
-          print()
-          tprint("Wilbur was not with you, so it took two minutes to find him.\n")
-          tprint("Wilbur tells you that there is one in Montana, New York, and Florida.\n")
-      elif option == "3":
-        tprint("You try to pick the lock with your tongue, but fail and get electrocuted by the powered door.")
-        sys.exit("GAME OVER: You died")
+  if not skip_section("Headquarters_1"):
+    tprint("You arrive at J.A.C.K. headquarters and find a large metal door with a keyhole.\n\nOptions:\n1. Bang your head against the door and try to break it.\n2. Ask Wilbur if he knows where your parents are.\n3. Try to pick the lock with your tongue.\n")
+    option = input("")
+    if option == "1":
+      tprint("You bang your head against the door. It does not budge, and you suffer severe brain damage.")
+      sys.exit("!)!(*!&#(*&!)6")
+    elif option == "2":
+      tprint("You ask Wilbur if he knows where your parents are.\n")
+      if Wilbur["true"] == True:
+        tprint("Wilbur tells you that there is one in Montana, New York, and Florida.\n")
+      else:
+        tprint("Searching for Wilbur...\n")
+        for remaining_seconds in range(120, -1, -1):
+          minutes, seconds = divmod(remaining_seconds, 60)
+          print(f"\rTime remaining: {minutes}:{seconds:02}", end="", flush=True)
+          if remaining_seconds:
+            time.sleep(1)
+        print()
+        tprint("Wilbur was not with you, so it took two minutes to find him.\n")
+        tprint("Wilbur tells you that there is one in Montana, New York, and Florida.\n")
+    elif option == "3":
+      tprint("You try to pick the lock with your tongue, but fail and get electrocuted by the powered door.")
+      sys.exit("GAME OVER: You died")
       
 if __name__ == "__main__":
   game()
