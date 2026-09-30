@@ -317,6 +317,7 @@ def game():
       if Wilbur["true"] == True:
         tprint("Wilbur tells you that there is one in Montana, New York, and Florida.\n")
       else:
+        tprint("Wilbur is not with you, so it takes two minutes to find him.\n")
         tprint("Searching for Wilbur...\n")
         for remaining_seconds in range(120, -1, -1):
           minutes, seconds = divmod(remaining_seconds, 60)
@@ -324,7 +325,6 @@ def game():
           if remaining_seconds:
             time.sleep(1)
         print()
-        tprint("Wilbur was not with you, so it took two minutes to find him.\n")
         tprint("Wilbur tells you that there is one in Montana, New York, and Florida.\n")
     elif option == "3":
       tprint("You try to pick the lock with your tongue, but fail and get electrocuted by the powered door.")
