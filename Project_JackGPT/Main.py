@@ -64,8 +64,8 @@ def set_debug_mode(username):
       Key1 = True
       Key2 = True
       Key3 = True
-      player["damage"] += 5
-
+      player["damage"] = 999
+      player["health"] = 999
 
 def skip_section(section_name):
   if DEBUG_SKIP <= 0:
