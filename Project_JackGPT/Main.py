@@ -332,7 +332,8 @@ def game():
       sys.exit("GAME OVER: You died")
 
   if not skip_section("Montana_Scene"):    
-    tprint("You travel to Montana and find a Large key guarded by a small army of Flock cameras, They are invading your privacy You can..\nOptions:\n1.Take a bath in RUST-OLEUM 214944 and go at night so they cannot see you \n2.Send Jeffy to eat them\n3.Hire a nearby flock of pigeons to swarm the cameras\n4.Fight the cameras\n")
+    tprint(f"You travel to Montana and find a Large key guarded by a small army of Flock cameras, They are invading your privacy You can..\nOptions:\n1.Take a bath in RUST-OLEUM 214944 and go at night so they cannot see you \n2.Send {getJeffy()} to eat them\n3.Hire a nearby flock of pigeons to swarm the cameras\n4.Fight the cameras\n")
+    option = intput("")
     if option == "1":
       tprint("You take a bath in RUST-OLEUM 214944 and go at night so they cannot see you, You sneak past the cameras and grab the key. As you go to leave the cameras sense the bluetooth on your phone and shoot blindly, Killing a small family in the process.\n")
       key1 = True
