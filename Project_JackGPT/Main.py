@@ -48,6 +48,19 @@ player = {
   "damage": 5
          }
 
+lives = 3
+
+class PlayerDeath(Exception):
+  pass
+
+def death():
+  global lives
+  lives -= 1
+  if lives <= 0:
+    sys.exit("GAME OVER: YOU DIED")
+  tprint(f"You have {lives} {'life' if lives == 1 else 'lives'} remaining. Starting over...\n")
+  raise PlayerDeath
+
 def set_debug_mode(username):
   global DEBUG_SKIP, tprintDel
   DEBUG_SKIP = 0
@@ -147,15 +160,14 @@ def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
       tprint(f"{enemy} attacks you for {enemy_damage} damage\n")
       player_health -= enemy_damage
       if player_health <= 0:
-        sys.exit("GAME OVER: You died")
+        death()
       else:
         return fight(enemy, enemy_damage, enemy_health, player_health, player_damage)  
   elif option == 2:
     tprint(f"You defend against {enemy}'s attack\n")
     player_health -= enemy_damage / 2
     if player_health <= 0:
-      sys.exit("GAME OVER: You died")
-      return False
+      death()
     else:
       return fight(enemy, enemy_damage, enemy_health, player_health, player_damage)
   elif option == 3:
@@ -166,10 +178,8 @@ def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
     return fight(enemy, enemy_damage, enemy_health, player_health, player_damage)
 
 
-def game():
+def play_game():
   global user, player, Jeffy, Tom, tprintDel
-  user = qinput("Please enter your name: ")
-  set_debug_mode(user)
   tprint("Welcome to Project J.A.C.K. GPT. Enter q at any time to quit.\n\n")
   statcheck()
 
@@ -181,16 +191,18 @@ def game():
         tprint(f"{getJeffy()} gets scared and runs away.\n")
         time.sleep(3)
         tprint("He comes back from behind you and eats you.\n")
-        sys.exit("GAME OVER: You died")
+        death()
       elif option == 2:
         tprint(f"The music hypnotizes {getJeffy()}, and he follows you. (+5 attack damage)\n")
         Jeffy["true"] = True
         player["damage"] += 5
       elif option == 3:
         tprint(f"You call HR to report him. As you raise the phone to your ear, {getJeffy()} sees whom you are calling and lunges at you, accidentally snapping your neck.\n")
-        sys.exit("GAME OVER: You died")
+        death()
       else:
         tprint(f"{getJeffy()} snarls at you as you walk away.\n")
+    except PlayerDeath:
+      raise
     except Exception as e:
       print(f"ERROR: {e}")
 
@@ -240,7 +252,9 @@ def game():
         Tom["true"] = True
       if option == 2:
         tprint("You spend a fun night with the ox, but it senses that you have an STD and kicks you to death.\n")
-        sys.exit("GAME OVER: You died")
+        death()
+    except PlayerDeath:
+      raise
     except Exception as e:
       print(f"ERROR: {e}")
 
@@ -261,14 +275,14 @@ def game():
       tprint("After defeating Wilbur, you interrogate him and learn that the superweapon is in Chipapas, Mexico. He was kidnapped to be turned into jerky, but escaped in a stolen helicopter.\n")
     elif option == 2:
       tprint("You admit that you are the father of Wilbur's piglets, and he brutally beats you to death.\n")
-      sys.exit("GAME OVER: You died")
+      death()
     elif option == 3:
       tprint("You look in a mirror to put your self-doubt to rest. Wilbur catches a glimpse of himself and realizes that he looks like the children.\nHe apologizes and gives you the Flash's suit. He also joins you to get revenge on the people who tried to turn him into jerky. (+15 health)\n")
       player["health"] += 15
       Wilbur["true"] = True
     elif option == 4:
       tprint("Wilbur is a pig and does not understand biology. He beats you to death.")
-      sys.exit("GAME OVER: You died")
+      death()
   if not skip_section("hawaii_volcano_scene"):
     if Tom["true"] and Jeffy["true"]:
       tprint(f"You ride Tom and {getJeffy()} to Hawaii. All this adventure is exhausting, and you need a break.\n")
@@ -278,10 +292,10 @@ def game():
     option = input("")
     if option == "1":
       tprint("You jump into the volcano too early and are vaporized.\n")
-      sys.exit("GAME OVER: You died")
+      death()
     elif option == "2":
       tprint("You run away from the volcano and survive, but you are still sunburned and die from too much social interaction.\n")
-      sys.exit("GAME OVER: You died")
+      death()
     elif option == "3":
       tprint("You stare into the sun, go blind, and stumble into the volcano at the perfect moment. It blasts you and your companions into Chipapas, Mexico, a short taxi ride from J.A.C.K. headquarters.\n")
   if not skip_section("chiapapas_scene_1"):
@@ -292,7 +306,7 @@ def game():
         tprint(f"You ignore {getJeffy()}'s hunger and continue toward J.A.C.K. headquarters.\n")
       elif option == "2":
         tprint(f"You make {getJeffy()} go hungry while you eat. He gets furious, kills you, and calls it rage bait.\n")
-        sys.exit("GAME OVER: You died")
+        death()
       elif option == "3":
         tprint(f"You feed {getJeffy()}, and he evolves!\n")
         Jeffy["tier"] += 1
@@ -306,13 +320,13 @@ def game():
         player["health"] += 15
       elif option == "2":
         tprint("You ignore your hunger and continue toward J.A.C.K. headquarters, but collapse from exhaustion.\n")
-        sys.exit("GAME OVER: You died")
+        death()
   if not skip_section("Headquarters_Exterior_Scene1"):
     tprint("You arrive at J.A.C.K. headquarters and find a large metal door with a keyhole.\n\nOptions:\n1. Bang your head against the door and try to break it.\n2. Ask Wilbur if he knows where your parents are.\n3. Try to pick the lock with your tongue.\n")
     option = input("")
     if option == "1":
       tprint("You bang your head against the door. It does not budge, and you suffer severe brain damage.\n")
-      sys.exit("!)!(*!&#(*&!)6")
+      death()
     elif option == "2":
       tprint("You ask Wilbur if he knows where your parents are.\n")
       if Wilbur["true"] == True:
@@ -329,7 +343,7 @@ def game():
         tprint("Wilbur tells you that there is one in Montana, New York, and Florida.\n")
     elif option == "3":
       tprint("You try to pick the lock with your tongue, but fail and get electrocuted by the powered door.\n")
-      sys.exit("GAME OVER: You died")
+      death()
 
   if not skip_section("Montana_Scene"):    
     tprint(f"You travel to Montana and find a large key guarded by a small army of Flock cameras. They are invading your privacy. What do you do?\n\nOptions:\n1. Take a bath in RUST-OLEUM 214944 and go at night so they cannot see you.\n2. Send {getJeffy()} to eat them.\n3. Hire a nearby flock of pigeons to swarm the cameras.\n4. Fight the cameras.\n")
@@ -346,7 +360,7 @@ def game():
       tprint(f"{getJeffy()} has evolved to the next tier!\n")
     elif option == "3":
       tprint("The Flock cameras try to shoot the pigeons but miss. One shot hits a forest and sets the whole state of Oregon on fire; another misses and hits you.\n")
-      sys.exit("GAME OVER: You died")
+      death()
     elif option == "4":
       fight("Flock Camera Army", 80, 100, player["health"], player["damage"])
   if not skip_section("New York"):
@@ -361,19 +375,39 @@ def game():
     fight("Drunk Scientists", 25, 20, player["health"], player["damage"])
     tprint("Now that the scientists are gone, you search the large lobby and find the employee room. There's a nice delicous cup of coffee that you drink 4 cups of (+15 health). You then go to the bathroom and find three doors.\n\nOptions:\n1. Straight ahead, labeled 'Employees Only.'\n2. Upstairs, partly hidden.\n3. To the left, guarded by Donald Trump.\n(Hint: think Outside The Box)\n")
     player["health"] += 15
-    option = input("")
-    if option == "1":
-      tprint("You go through, and a horde of robots overruns you, beating you to death.\n")
-      sys.exit("GAME OVER: You died")
-    elif option == "2":
-      tprint("A secret trap triggers behind you. An arrow strikes your back; it is coated in a fast-acting poison.\n")
-      time.sleep(3)
-      sys.exit("GAME OVER: You died")
-    elif option == "3":
-      tprint("As you try to go through, Donald Trump notices you and uses his ultimate: 'You are going to die. Everyone is talking about it, quite frankly.'\n")
-      sys.exit("GAME OVER: You died")
-    elif option =="Outside The Box":
-      tprint("You find a secret door, continue down a dimly lit passage, and enter a room.\n") # Add more here after the keys.
+    while True:
+      option = input("")
+      if option == "1":
+        tprint("You go through, and a horde of robots overruns you, beating you to death.\n")
+        death()
+      elif option == "2":
+        tprint("A secret trap triggers behind you. An arrow strikes your back; it is coated in a fast-acting poison.\n")
+        time.sleep(3)
+        death()
+      elif option == "3":
+        tprint("As you try to go through, Donald Trump notices you and uses his ultimate: 'You are going to die. Everyone is talking about it, quite frankly.'\n")
+        death()
+      elif option == "Outside The Box":
+        tprint("You find a secret door, continue down a dimly lit passage, and enter a room.\n")
+        tprint("You find your parents and destroy JackGPT. You win!\n")
+        break
+      else:
+        tprint("Invalid option. Try again.\n")
+
+def game():
+  global user, player, Jeffy, Wilbur, Tom
+  user = qinput("Please enter your name: ")
+  while True:
+    player = {"health": 20, "damage": 5}
+    Jeffy = {"true": False, "damage": 5, "tier": 0, "tiers": ["Jeffy", "Jeffry", "Jeffred", "Geoffry"]}
+    Wilbur = {"true": False, "damage": 15}
+    Tom = {"true": False, "damage": 10}
+    set_debug_mode(user)
+    try:
+      play_game()
+      return
+    except PlayerDeath:
+      continue
       
 if __name__ == "__main__":
   game()
