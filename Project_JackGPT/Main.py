@@ -1,3 +1,4 @@
+import copy
 import os
 import select
 import sys
@@ -24,6 +25,25 @@ DEBUG_SECTIONS = [
   "Montana_Scene",
   "headquarters_scene1"
 ]
+SCENE_ORDER = [
+  "jeffy_scene",
+  "ex_scene",
+  "family_scene",
+  "fight_scene",
+  "camp_scene",
+  "portal_scene",
+  "flash_scene",
+  "farm_scene",
+  "hawaii_volcano_scene",
+  "chiapapas_scene_1",
+  "Headquarters_Exterior_Scene1",
+  "Montana_Scene",
+  "New York",
+  "headquarters_scene1"
+]
+RESUME_SCENE_INDEX = 0
+CURRENT_SCENE_INDEX = 0
+SCENE_SNAPSHOTS = {}
 
 Jeffy = {
   "true": False, 
@@ -54,11 +74,12 @@ class PlayerDeath(Exception):
   pass
 
 def death():
-  global lives
+  global lives, RESUME_SCENE_INDEX
   lives -= 1
   if lives <= 0:
     sys.exit("GAME OVER: YOU DIED")
-  tprint(f"You have {lives} {'life' if lives == 1 else 'lives'} remaining. Starting over...\n")
+  RESUME_SCENE_INDEX = max(0, CURRENT_SCENE_INDEX - 2)
+  tprint(f"You have {lives} {'life' if lives == 1 else 'lives'} remaining. Restarting two scenes earlier...\n")
   raise PlayerDeath
 
 def set_debug_mode(username):
@@ -82,11 +103,20 @@ def set_debug_mode(username):
       player["health"] = 999
 
 def skip_section(section_name):
-  if DEBUG_SKIP <= 0:
+  global CURRENT_SCENE_INDEX
+  if section_name not in SCENE_ORDER:
     return False
-  if section_name not in DEBUG_SECTIONS:
-    return False
-  return DEBUG_SECTIONS.index(section_name) < DEBUG_SKIP
+
+  CURRENT_SCENE_INDEX = SCENE_ORDER.index(section_name)
+  if CURRENT_SCENE_INDEX < RESUME_SCENE_INDEX:
+    return True
+
+  SCENE_SNAPSHOTS[CURRENT_SCENE_INDEX] = copy.deepcopy((player, Jeffy, Tom, Wilbur))
+  return (
+    DEBUG_SKIP > 0
+    and section_name in DEBUG_SECTIONS
+    and DEBUG_SECTIONS.index(section_name) < DEBUG_SKIP
+  )
 
 
 def tprint(text, speed=None):
@@ -180,7 +210,11 @@ def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
 
 def play_game():
   global user, player, Jeffy, Tom, tprintDel
-  tprint("Welcome to Project J.A.C.K. GPT. Enter q at any time to quit.\n\n")
+  if RESUME_SCENE_INDEX == 0:
+    tprint("Welcome to Project J.A.C.K. GPT. Enter q at any time to quit.\n\n")
+  else:
+    checkpoint_scene = SCENE_ORDER[RESUME_SCENE_INDEX].replace("_", " ")
+    tprint(f"Resuming at {checkpoint_scene}.\n\n")
   statcheck()
 
   if not skip_section("jeffy_scene"):
@@ -397,16 +431,19 @@ def play_game():
 def game():
   global user, player, Jeffy, Wilbur, Tom
   user = qinput("Please enter your name: ")
+  player = {"health": 20, "damage": 5}
+  Jeffy = {"true": False, "damage": 5, "tier": 0, "tiers": ["Jeffy", "Jeffry", "Jeffred", "Geoffry"]}
+  Wilbur = {"true": False, "damage": 15}
+  Tom = {"true": False, "damage": 10}
   while True:
-    player = {"health": 20, "damage": 5}
-    Jeffy = {"true": False, "damage": 5, "tier": 0, "tiers": ["Jeffy", "Jeffry", "Jeffred", "Geoffry"]}
-    Wilbur = {"true": False, "damage": 15}
-    Tom = {"true": False, "damage": 10}
     set_debug_mode(user)
     try:
       play_game()
       return
     except PlayerDeath:
+      snapshot = SCENE_SNAPSHOTS.get(RESUME_SCENE_INDEX)
+      if snapshot is not None:
+        player, Jeffy, Tom, Wilbur = copy.deepcopy(snapshot)
       continue
       
 if __name__ == "__main__":
