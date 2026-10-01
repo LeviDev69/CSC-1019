@@ -349,8 +349,11 @@ def game():
       sys.exit("GAME OVER: You Died")
     elif option == "4":
       fight("Flock Camera Army", 80, 100, player["health"], player["damage"])
-  
-  
+  if not skip_section("New York"):
+    tprint("You arrive in Central Park, New York and find a sky scraper built in the very center labeled, J.A.C.K. Distrobution Center.\n You head in\nas you enter you pass a metal detecter, it goes off and a robot comes over to attack you")
+    fight("robot", 30, 60, player["health"], player["damage"])
+    tprint("you find a door to the employee's lounge and go through to the back, where you find a key gaurded by a tesla robot")
+    fight("Tesla Clanker", 5,  2, player["health"], player["damage"])
   
   #For after we do the keys
   if not skip_section("headquarters_scene1"):
@@ -368,7 +371,7 @@ def game():
     elif option == "3":
       tprint("As you try to go through Donold Trump notices you and uses his ult, “you are going to die, everyone is talking about it quite frankly”")
     elif option == "4":
-      tprint("You found a secret door, you continue the a dimly lit passage and find a room with a locked door, you realise you are going to need a key. You head back out to the lobby and out the front doors, ")
+      tprint("You found a secret door, you continue the a dimly lit passage and find a room") # add more from here after keys
       
 if __name__ == "__main__":
   game()
