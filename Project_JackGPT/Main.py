@@ -178,9 +178,9 @@ def game():
     try:
       option = intput("")
       if option == 1:
-        tprint(f"{getJeffy()} got scared and ran away.")
+        tprint(f"{getJeffy()} gets scared and runs away.\n")
         time.sleep(3)
-        tprint(" He came back from behind you and ate you\n")
+        tprint("He comes back from behind you and eats you.\n")
         sys.exit("GAME OVER: You died")
       elif option == 2:
         tprint(f"The music hypnotizes {getJeffy()}, and he follows you. (+5 attack damage)\n")
@@ -190,7 +190,7 @@ def game():
         tprint(f"You call HR to report him. As you raise the phone to your ear, {getJeffy()} sees whom you are calling and lunges at you, accidentally snapping your neck.\n")
         sys.exit("GAME OVER: You died")
       else:
-        tprint(f"{getJeffy()} snarls at you as you walk away")
+        tprint(f"{getJeffy()} snarls at you as you walk away.\n")
     except Exception as e:
       print(f"ERROR: {e}")
 
@@ -201,11 +201,11 @@ def game():
       if option == 1:
         tprint("You call 911. The responders arrive in five minutes and take her to the hospital because she has alcohol poisoning.\n")
       elif option == 2:
-        tprint("You call 988 and they give you a pep talk\n")
+        tprint("You call 988, and they give you a pep talk.\n")
       elif option == 3:
         tprint(f"You walk away, and {getJeffy()} eats her.\n")
       else:
-        tprint(f"{getJeffy()} eats her\n")
+        tprint(f"{getJeffy()} eats her.\n")
         if Jeffy["true"] == True:
           Jeffy["tier"] += 1
           tprint(f"{getJeffy()} has evolved (+10 attack damage).\n")
@@ -226,7 +226,7 @@ def game():
 
     tprint("You search the dumpster the attacker climbed out of and find a used needle (+10 damage) and a cast-iron pan (+10 health).\n")
     player["health"] += 10
-    player["damage"] +=10
+    player["damage"] += 10
     tprint("You leave boring Oregon and set off toward Mexico on Interstate 69.\n")
     tprint("You find a road leading to a camp and put on the attacker's clothes to sneak inside. When you arrive, you see the campers making out with female musk oxen. You try to join the party.\n\nOptions:\n1. Find a male ox named Tom and bribe him to help you on your journey.\n2. Spend a fun night with an ox.\n3. Make out with one of the oxen.\n")
     try:
@@ -260,7 +260,7 @@ def game():
       fight("Wilbur the Pig", 15, 30, player["health"], player["damage"])
       tprint("After defeating Wilbur, you interrogate him and learn that the superweapon is in Chipapas, Mexico. He was kidnapped to be turned into jerky, but escaped in a stolen helicopter.\n")
     elif option == 2:
-      tprint("You admit that you are the father of Wilbur's piglets, and he brutally beats you to death.")
+      tprint("You admit that you are the father of Wilbur's piglets, and he brutally beats you to death.\n")
       sys.exit("GAME OVER: You died")
     elif option == 3:
       tprint("You look in a mirror to put your self-doubt to rest. Wilbur catches a glimpse of himself and realizes that he looks like the children.\nHe apologizes and gives you the Flash's suit. He also joins you to get revenge on the people who tried to turn him into jerky. (+15 health)\n")
@@ -277,10 +277,10 @@ def game():
     tprint("When you arrive in Hawaii, you see polluted beaches and get sunburned. You get the brilliant idea to jump into a volcano.\n\nOptions:\n1. Jump into the volcano.\n2. Run away from the volcano.\n3. Stare into the sun.\n")
     option = input("")
     if option == "1":
-      tprint("You jump into the volcano and are too early, getting vaporized.")
+      tprint("You jump into the volcano too early and are vaporized.\n")
       sys.exit("GAME OVER: You died")
     elif option == "2":
-      tprint("You run away from the volcano and survive, but you are still sunburned and die from too much social interaction.")
+      tprint("You run away from the volcano and survive, but you are still sunburned and die from too much social interaction.\n")
       sys.exit("GAME OVER: You died")
     elif option == "3":
       tprint("You stare into the sun, go blind, and stumble into the volcano at the perfect moment. It blasts you and your companions into Chipapas, Mexico, a short taxi ride from J.A.C.K. headquarters.\n")
@@ -291,13 +291,13 @@ def game():
       if option == "1":
         tprint(f"You ignore {getJeffy()}'s hunger and continue toward J.A.C.K. headquarters.\n")
       elif option == "2":
-        tprint(f"You make {getJeffy()} go hungry while you eat. He gets furious, kills you, and calls it rage bait.")
+        tprint(f"You make {getJeffy()} go hungry while you eat. He gets furious, kills you, and calls it rage bait.\n")
         sys.exit("GAME OVER: You died")
       elif option == "3":
         tprint(f"You feed {getJeffy()}, and he evolves!\n")
         Jeffy["tier"] += 1
         player["damage"] += 15
-        tprint(f"{getJeffy()} has evolved to the next tier!")
+        tprint(f"{getJeffy()} has evolved to the next tier!\n")
     else:
       tprint("You arrive in Chipapas, Mexico, very close to J.A.C.K. headquarters. Your stomach rumbles, and you might collapse because you have not eaten since the journey began.\n\nOptions:\n1. Eat to restore your health.\n2. Ignore your hunger and continue toward headquarters.\n")
       option = input("")
@@ -305,13 +305,13 @@ def game():
         tprint("You eat and restore your health.\n")
         player["health"] += 15
       elif option == "2":
-        tprint("You ignore your hunger and continue toward J.A.C.K. headquarters, but collapse from exhaustion.")
+        tprint("You ignore your hunger and continue toward J.A.C.K. headquarters, but collapse from exhaustion.\n")
         sys.exit("GAME OVER: You died")
   if not skip_section("Headquarters_Exterior_Scene1"):
     tprint("You arrive at J.A.C.K. headquarters and find a large metal door with a keyhole.\n\nOptions:\n1. Bang your head against the door and try to break it.\n2. Ask Wilbur if he knows where your parents are.\n3. Try to pick the lock with your tongue.\n")
     option = input("")
     if option == "1":
-      tprint("You bang your head against the door. It does not budge, and you suffer severe brain damage.")
+      tprint("You bang your head against the door. It does not budge, and you suffer severe brain damage.\n")
       sys.exit("!)!(*!&#(*&!)6")
     elif option == "2":
       tprint("You ask Wilbur if he knows where your parents are.\n")
@@ -328,50 +328,52 @@ def game():
         print()
         tprint("Wilbur tells you that there is one in Montana, New York, and Florida.\n")
     elif option == "3":
-      tprint("You try to pick the lock with your tongue, but fail and get electrocuted by the powered door.")
+      tprint("You try to pick the lock with your tongue, but fail and get electrocuted by the powered door.\n")
       sys.exit("GAME OVER: You died")
 
   if not skip_section("Montana_Scene"):    
-    tprint(f"You travel to Montana and find a Large key guarded by a small army of Flock cameras, They are invading your privacy You can..\nOptions:\n1.Take a bath in RUST-OLEUM 214944 and go at night so they cannot see you \n2.Send {getJeffy()} to eat them\n3.Hire a nearby flock of pigeons to swarm the cameras\n4.Fight the cameras\n")
+    tprint(f"You travel to Montana and find a large key guarded by a small army of Flock cameras. They are invading your privacy. What do you do?\n\nOptions:\n1. Take a bath in RUST-OLEUM 214944 and go at night so they cannot see you.\n2. Send {getJeffy()} to eat them.\n3. Hire a nearby flock of pigeons to swarm the cameras.\n4. Fight the cameras.\n")
     option = intput("")
     if option == "1":
-      tprint("You take a bath in RUST-OLEUM 214944 and go at night so they cannot see you, You sneak past the cameras and grab the key. As you go to leave the cameras sense the bluetooth on your phone and shoot blindly, Killing a small family in the process.\n")
+      tprint("You take a bath in RUST-OLEUM 214944 and go at night so they cannot see you. You sneak past the cameras and grab the key. As you leave, the cameras detect your phone's Bluetooth signal and shoot blindly, killing a small family in the process.\n")
       key1 = True
     elif option == "2":
-      tprint("You send Jeffy to eat the cameras, He eats them all, you get the key successfully\n")
+      tprint(f"You send {getJeffy()} to eat the cameras. He eats them all, and you successfully get the key.\n")
       tprint(f"{getJeffy()} has evolved!\n")
       Jeffy["tier"] += 1
       player["damage"] += 15
       key1 = True
       tprint(f"{getJeffy()} has evolved to the next tier!\n")
     elif option == "3":
-      tprint("The flock cameras try to shoot the pigeons but miss, one hits a forest and sets the whole state of Oregon on fire, another misses and hit you")
-      sys.exit("GAME OVER: You Died")
+      tprint("The Flock cameras try to shoot the pigeons but miss. One shot hits a forest and sets the whole state of Oregon on fire; another misses and hits you.\n")
+      sys.exit("GAME OVER: You died")
     elif option == "4":
       fight("Flock Camera Army", 80, 100, player["health"], player["damage"])
   if not skip_section("New York"):
-    tprint("You arrive in Central Park, New York and find a sky scraper built in the very center labeled, J.A.C.K. Distrobution Center.\n You head in\nas you enter you pass a metal detecter, it goes off and a robot comes over to attack you")
+    tprint("You arrive in Central Park, New York, and find a skyscraper in the center labeled 'J.A.C.K. Distribution Center.'\nYou head inside. As you pass through a metal detector, it goes off, and a robot comes over to attack you.\n")
     fight("robot", 30, 60, player["health"], player["damage"])
-    tprint("you find a door to the employee's lounge and go through to the back, where you find a key gaurded by a tesla robot")
+    tprint("You find a door to the employees' lounge and go through it. In the back, you find a key guarded by a Tesla robot.\n")
     fight("Tesla Clanker", 5,  2, player["health"], player["damage"])
   
-  #For after we do the keys
+  # For after we do the keys
   if not skip_section("headquarters_scene1"):
-    tprint("a group of very drunk scientists are there. They look you up and down, and decide you are a threat to their work. You have no choice but to fight them.\n")
+    tprint("A group of very drunk scientists are there. They look you up and down and decide you are a threat to their work. You have no choice but to fight them.\n")
     fight("Drunk Scientists", 25, 20, player["health"], player["damage"])
-    tprint("Now that the scientists are gone, you search the large lobby room, and find 3 doors.\nOptions:\n1:A door straight in front of you after entering, with a label employees only\n2:Up on a second floor after stairs, kind of hidden\n3:Off to the left, guarded by Donald Trump\n")
+    tprint("Now that the scientists are gone, you search the large lobby and find the employee room. There's a nice delicous cup of coffee that you drink 4 cups of (+15 health). You then go to the bathroom and find three doors.\n\nOptions:\n1. Straight ahead, labeled 'Employees Only.'\n2. Upstairs, partly hidden.\n3. To the left, guarded by Donald Trump.\n(Hint: think Outside The Box)\n")
+    player["health"] += 15
     option = input("")
     if option == "1":
-      tprint("you go through and a ton of robots overrun you, brutally beating you to death.\n")
+      tprint("You go through, and a horde of robots overruns you, beating you to death.\n")
       sys.exit("GAME OVER: You died")
     elif option == "2":
-      tprint("a secret trap triggers behind you, you feel an arrow straight into your back, it is coated in a fast acting poison")
+      tprint("A secret trap triggers behind you. An arrow strikes your back; it is coated in a fast-acting poison.\n")
       time.sleep(3)
       sys.exit("GAME OVER: You died")
     elif option == "3":
-      tprint("As you try to go through Donold Trump notices you and uses his ult, “you are going to die, everyone is talking about it quite frankly”")
-    elif option == "4":
-      tprint("You found a secret door, you continue the a dimly lit passage and find a room") # add more from here after keys
+      tprint("As you try to go through, Donald Trump notices you and uses his ultimate: 'You are going to die. Everyone is talking about it, quite frankly.'\n")
+      sys.exit("GAME OVER: You died")
+    elif option =="Outside The Box":
+      tprint("You find a secret door, continue down a dimly lit passage, and enter a room.\n") # Add more here after the keys.
       
 if __name__ == "__main__":
   game()
