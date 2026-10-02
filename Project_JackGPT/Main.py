@@ -29,6 +29,7 @@ DEBUG_SECTIONS = [
   "to_chipapas_scene",
   "headquarters_scene"
 ]
+
 SCENE_ORDER = [
   "jeffy_scene",
   "ex_scene",
