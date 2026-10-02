@@ -23,6 +23,8 @@ DEBUG_SECTIONS = [
   "chiapapas_scene_1",
   "Headquarters_Exterior_Scene1",
   "Montana_Scene",
+  "New_York_Scene",
+  "Deported_Scene",
   "headquarters_scene1"
 ]
 SCENE_ORDER = [
@@ -38,7 +40,8 @@ SCENE_ORDER = [
   "chiapapas_scene_1",
   "Headquarters_Exterior_Scene1",
   "Montana_Scene",
-  "New York",
+  "New_York_Scene",
+  "Deported_Scene",
   "headquarters_scene1"
 ]
 RESUME_SCENE_INDEX = 0
@@ -148,6 +151,15 @@ def tprint(text, speed=None):
     termios.tcsetattr(input_fd, termios.TCSADRAIN, old_settings)
 
 
+def evolve_jeffy():
+  previous_name = getJeffy()
+  if Jeffy["tier"] >= len(Jeffy["tiers"]) - 1:
+    tprint(f"{previous_name} is already at the highest tier.\n")
+    return
+  Jeffy["tier"] += 1
+  tprint(f"{previous_name} has evolved to a {getJeffy()}!\n")
+
+
 quit_statements = ["q", "quit", "exit", "exit game"]
 
 def qinput(prompt):
@@ -253,8 +265,7 @@ def play_game():
       else:
         tprint(f"{getJeffy()} eats her.\n")
         if Jeffy["true"] == True:
-          Jeffy["tier"] += 1
-          tprint(f"{getJeffy()} has evolved (+10 attack damage).\n")
+          evolve_jeffy()
           Jeffy["damage"] += 5
     except Exception as e:
       print(f"ERROR: {e}")
@@ -308,7 +319,7 @@ def play_game():
       fight("Wilbur the Pig", 15, 30, player["health"], player["damage"])
       tprint("After defeating Wilbur, you interrogate him and learn that the superweapon is in Chipapas, Mexico. He was kidnapped to be turned into jerky, but escaped in a stolen helicopter.\n")
     elif option == 2:
-      tprint("You admit that you are the father of Wilbur's piglets, and he brutally beats you to death.\n")
+      tprint("You admit that you are the father of Wilbur's piglets, and he brutally beats you to dnts in Main.py:154 to advance the tiereath.\n")
       death()
     elif option == 3:
       tprint("You look in a mirror to put your self-doubt to rest. Wilbur catches a glimpse of himself and realizes that he looks like the children.\nHe apologizes and gives you the Flash's suit. He also joins you to get revenge on the people who tried to turn him into jerky. (+15 health)\n")
@@ -342,10 +353,9 @@ def play_game():
         tprint(f"You make {getJeffy()} go hungry while you eat. He gets furious, kills you, and calls it rage bait.\n")
         death()
       elif option == "3":
-        tprint(f"You feed {getJeffy()}, and he evolves!\n")
-        Jeffy["tier"] += 1
+        tprint(f"You feed {getJeffy()}.\n")
+        evolve_jeffy()
         player["damage"] += 15
-        tprint(f"{getJeffy()} has evolved to the next tier!\n")
     else:
       tprint("You arrive in Chipapas, Mexico, very close to J.A.C.K. headquarters. Your stomach rumbles, and you might collapse because you have not eaten since the journey began.\n\nOptions:\n1. Eat to restore your health.\n2. Ignore your hunger and continue toward headquarters.\n")
       option = input("")
@@ -387,24 +397,39 @@ def play_game():
       key1 = True
     elif option == "2":
       tprint(f"You send {getJeffy()} to eat the cameras. He eats them all, and you successfully get the key.\n")
-      tprint(f"{getJeffy()} has evolved!\n")
-      Jeffy["tier"] += 1
+      evolve_jeffy()
       player["damage"] += 15
       key1 = True
-      tprint(f"{getJeffy()} has evolved to the next tier!\n")
     elif option == "3":
       tprint("The Flock cameras try to shoot the pigeons but miss. One shot hits a forest and sets the whole state of Oregon on fire; another misses and hits you.\n")
       death()
     elif option == "4":
       fight("Flock Camera Army", 80, 100, player["health"], player["damage"])
-  if not skip_section("New York"):
+  if not skip_section("New_York_Scene"):
     tprint("You arrive in Central Park, New York, and find a skyscraper in the center labeled 'J.A.C.K. Distribution Center.'\nYou head inside. As you pass through a metal detector, it goes off, and a robot comes over to attack you.\n")
     fight("robot", 30, 60, player["health"], player["damage"])
     tprint("You find a door to the employees' lounge and go through it. In the back, you find a key guarded by a Tesla robot.\n")
     fight("Tesla Clanker", 5,  2, player["health"], player["damage"])
   
-  # For after we do the keys
-  if not skip_section("headquarters_scene1"):
+    #Still need to add the last key scene
+  if not skip_section("deported_scene"):
+    tprint("You have now collected all three keys and are ready to go back to the J.A.C.K. headquarters. as you leave florida a group of ICE Agents stop you and ask for your papers. When you cannon give them anything they tackle you and take you back to Mexico. Dumping you in a massive mosh pit of angry people trying to get back into the US.\n")
+    tprint(f"Options:\n1. Try to get through the croud\n2.Try to reason with a nearby ICE Agent\n3.Start a mob and bum rush the ICE Agents\n4.Tell {getJeffy()} to eat the ICE Agents\n")
+    option = intput("")
+    if option == 1:
+      tprint("You try to get through the croud but are trampled to death.\n")
+      death()
+    elif option == 2:
+      tprint("You try to reason with a nearby ICE Agent but one of the people in the mob thinks you are friends with them and beats you over the head with a pipe wrench.\n")
+      death()
+    elif option == 3:
+      tprint("You start a mob and bum rush the ICE Agents. You are successful, but you are shot in the back by a sniper.\n")
+      death()
+    elif option == 4:
+      tprint(f"You tell {getJeffy()} to eat the ICE Agents. He does so, and you are able to escape back to J.A.C.K. headquarters.\n")
+      evolve_jeffy()
+      player["damage"] += 15
+  if not skip_section("headquarters_scene"):
     tprint("A group of very drunk scientists are there. They look you up and down and decide you are a threat to their work. You have no choice but to fight them.\n")
     fight("Drunk Scientists", 25, 20, player["health"], player["damage"])
     tprint("Now that the scientists are gone, you search the large lobby and find the employee room. There's a nice delicous cup of coffee that you drink 4 cups of (+15 health). You then go to the bathroom and find three doors.\n\nOptions:\n1. Straight ahead, labeled 'Employees Only.'\n2. Upstairs, partly hidden.\n3. To the left, guarded by Donald Trump.\n(Hint: think Outside The Box)\n")
