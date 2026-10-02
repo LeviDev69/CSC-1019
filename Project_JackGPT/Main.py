@@ -25,7 +25,7 @@ DEBUG_SECTIONS = [
   "Montana_Scene",
   "New_York_Scene",
   "Deported_Scene",
-  "headquarters_scene1"
+  "headquarters_scene"
 ]
 SCENE_ORDER = [
   "jeffy_scene",
@@ -42,7 +42,7 @@ SCENE_ORDER = [
   "Montana_Scene",
   "New_York_Scene",
   "Deported_Scene",
-  "headquarters_scene1"
+  "headquarters_scene"
 ]
 RESUME_SCENE_INDEX = 0
 CURRENT_SCENE_INDEX = 0
