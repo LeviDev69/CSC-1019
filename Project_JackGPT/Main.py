@@ -364,8 +364,10 @@ def play_game():
     fight("Fat Homeless Dude", 10, 40, player["health"])
     tprint("You enter the portal, and a nauseating strobing effect lasts for a few seconds.\n")
     time.sleep(3)
+  
   if not skip_section("flash_scene"):
     tprint("You find yourself face-to-face with the Flash. Before you can react, he picks you up and speeds away, burning your smelly clothes off with friction.\n")
+  
   if not skip_section("farm_scene"):
     tprint("When you arrive, he throws your blazing body into a lake, and you swim back to shore. The floor drops out from under you. Wilbur the pig starts investigating you, trying to figure out why all of Charlotte's children have pig heads.\nHe thinks you are their father because you are so ugly.\n\nOptions:\n1. Fight him for your girl.\n2. Admit that you are the father.\n3. Examine yourself in a mirror.\n4. Explain biology to Wilbur.\n")
     player["health"] += 15
@@ -384,6 +386,7 @@ def play_game():
     elif option == 4:
       tprint("Wilbur is a pig and does not understand biology. He beats you to death.")
       death()
+  
   if not skip_section("hawaii_volcano_scene"):
     if Tom["true"] and Jeffy["true"]:
       tprint(f"You ride Tom and {getJeffy()} to Hawaii. All this adventure is exhausting, and you need a break.\n")
@@ -399,6 +402,7 @@ def play_game():
       death()
     elif option == "3":
       tprint("You stare into the sun, go blind, and stumble into the volcano at the perfect moment. It blasts you and your companions into Chipapas, Mexico, a short taxi ride from J.A.C.K. headquarters.\n")
+  
   if not skip_section("chiapapas_scene_1"):
     if Jeffy["true"]:
       tprint(f"\nYou arrive in Chipapas, Mexico, very close to J.A.C.K. headquarters. {getJeffy()} tugs on his leash, trying to lead you toward the market. He seems hungry, but your parents are just ahead at headquarters.\n\nOptions:\n1. Ignore {getJeffy()}'s hunger and continue.\n2. Make {getJeffy()} go hungry while you eat.\n3. Take {getJeffy()} to the market and feed him.\n")
@@ -421,6 +425,7 @@ def play_game():
       elif option == "2":
         tprint("You ignore your hunger and continue toward J.A.C.K. headquarters, but collapse from exhaustion.\n")
         death()
+  
   if not skip_section("Headquarters_Exterior_Scene1"):
     tprint("You arrive at J.A.C.K. headquarters and find a large metal door with a keyhole.\n\nOptions:\n1. Bang your head against the door and try to break it.\n2. Ask Wilbur if he knows where your parents are.\n3. Try to pick the lock with your tongue.\n")
     option = input("")
@@ -445,7 +450,8 @@ def play_game():
       tprint("You try to pick the lock with your tongue, but fail and get electrocuted by the powered door.\n")
       death()
 
-  if not skip_section("Montana_Scene"):    
+  if not skip_section("Montana_Scene"): 
+
     tprint(f"You travel to Montana and find a large key guarded by a small army of Flock cameras. They are invading your privacy. What do you do?\n\nOptions:\n1. Take a bath in RUST-OLEUM 214944 and go at night so they cannot see you.\n2. Send {getJeffy()} to eat them.\n3. Hire a nearby flock of pigeons to swarm the cameras.\n4. Fight the cameras.\n")
     option = intput("")
     if option == "1":
@@ -462,13 +468,16 @@ def play_game():
     elif option == "4":
       fight("Flock Camera Army", 80, 100, player["health"])
   if not skip_section("New_York_Scene"):
+
     tprint("You arrive in Central Park, New York, and find a skyscraper in the center labeled 'J.A.C.K. Distribution Center.'\nYou head inside. As you pass through a metal detector, it goes off, and a robot comes over to attack you.\n")
     fight("robot", 30, 60, player["health"])
     tprint("You find a door to the employees' lounge and go through it. In the back, you find a key guarded by a Tesla robot.\n")
     fight("Tesla Clanker", 5,  2, player["health"])
   
     #Still need to add the last key scene
+  
   if not skip_section("deported_scene"):
+
     tprint("You have now collected all three keys and are ready to go back to the J.A.C.K. headquarters. as you leave florida a group of ICE Agents stop you and ask for your papers. When you cannon give them anything they tackle you and take you back to Mexico. Dumping you in a massive mosh pit of angry people trying to get back into the US.\n")
     tprint(f"Options:\n1. Try to get through the croud\n2.Try to reason with a nearby ICE Agent\n3.Start a mob and bum rush the ICE Agents\n4.Tell {getJeffy()} to eat the ICE Agents\n")
     option = intput("")
@@ -485,6 +494,7 @@ def play_game():
       tprint(f"You tell {getJeffy()} to eat the ICE Agents. He does so, and you are able to escape the mob.\n")
       evolve_jeffy()
       Jeffy["damage"] += 15
+  
   if not skip_section("to_chipapas_scene"):
     tprint("as you leave the mosh pit a angry cartel dealer stops you and points a gun at you. He says that he want $1,000 in gift cards by monday or he will find you and kill you.\n")
     tprint("Options:\n1. Give him your contact information and tell him you will pay\n2. Give him fake information and hope he doesn't notice\n.3. Grab his gun and kill him with it\n4. Scream \"DO NOT REDEEM IT\" at him")
@@ -501,6 +511,7 @@ def play_game():
     if option == 4:
       tprint("You scream \"DO NOT REDEEM IT\" at him. He is confused and leaves you alone.")
     tprint("you continue on to Chipapas, Mexico and find the J.A.C.K. headquarters. You have all three keys and are ready to go inside.\n")
+  
   if not skip_section("headquarters_scene"):
     tprint("A group of very drunk scientists are there. They look you up and down and decide you are a threat to their work. You have no choice but to fight them.\n")
     fight("Drunk Scientists", 25, 20, player["health"])
