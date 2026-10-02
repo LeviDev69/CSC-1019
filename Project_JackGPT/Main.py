@@ -22,8 +22,7 @@ DEBUG_SECTIONS = [
   "hawaii_volcano_scene", 
   "chiapapas_scene_1",
   "Headquarters_Exterior_Scene1",
-  "Montana_Scene",
-  "headquarters_scene1"
+  "Montana_Scene"
 ]
 SCENE_ORDER = [
   "jeffy_scene",
@@ -87,6 +86,7 @@ def set_debug_mode(username):
   DEBUG_SKIP = 0
   tprintDel = 0.07
 
+
   if not isinstance(username, str):
     return
 
@@ -101,6 +101,44 @@ def set_debug_mode(username):
       Key3 = True
       player["damage"] = 999
       player["health"] = 999
+
+
+def score_add_up():
+  global player, Jeffy, Tom, Wilbur
+  score = 0
+  score += player["health"]
+  if Jeffy["true"]:
+    score += Jeffy["damage"]
+  if Tom["true"]:
+    score += Tom["damage"]
+  if Wilbur["true"]:
+    score += Wilbur["damage"]
+  score += player["damage"]
+  score += player["health"]
+  score += Jeffy["tier"]
+  print("Your score is:", score)
+  
+
+
+#credits, leave at the end
+def credits():
+  time.sleep(3)
+  tprint("Credits:\n")
+  tprint("Lead developers: Jack Allington and Cannon Rodriguez\n")
+  tprint("Lead programmer: Jack Allington\n")
+  tprint("Lead game developer: Cannon Rodriguez\n")
+  tprint("Co-programmer Cannon Rodriguez\n")
+  tprint("Co-developer Jack Allington\n")
+  tprint("Game testers: Peter Vue and Daniel Lavin")
+  tprint("Hawaii scene: Josh Yeager\n")
+  tprint("Main character bonus: Cannon Rodriguez\n")
+  tprint("Cool birb bonus: Jack Allington\n")
+  tprint("Special thanks to my out of pocket brain - Cannon Rodriguez\n")
+  tprint("Thank you for playing!\n")
+  tprint(f"ps. {getJeffy()} is in Alaska\n")
+  time.sleep(3)
+  tprint("Something is coming in three days\n")
+  
 
 def skip_section(section_name):
   global CURRENT_SCENE_INDEX
@@ -222,9 +260,9 @@ def play_game():
     try:
       option = intput("")
       if option == 1:
-        tprint(f"{getJeffy()} gets scared and runs away.\n")
+        tprint(f"{getJeffy()} gets scared and runs away because the salt burns.\n")
         time.sleep(3)
-        tprint("He comes back from behind you and eats you.\n")
+        tprint("He rushes at you and attacks you. You do not survive.\n")
         death()
       elif option == 2:
         tprint(f"The music hypnotizes {getJeffy()}, and he follows you. (+5 attack damage)\n")
@@ -445,6 +483,14 @@ def game():
       if snapshot is not None:
         player, Jeffy, Tom, Wilbur = copy.deepcopy(snapshot)
       continue
+
+  
+
+  
       
 if __name__ == "__main__":
   game()
+  score_add_up()
+  credits()
+
+ 
