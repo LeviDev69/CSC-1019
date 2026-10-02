@@ -43,7 +43,7 @@ SCENE_ORDER = [
   "Montana_Scene",
   "New_York_Scene",
   "Deported_Scene",
-  "to_chipapas_scene",b
+  "to_chipapas_scene",
   "headquarters_scene"
 ]
 RESUME_SCENE_INDEX = 0
