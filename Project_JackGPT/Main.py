@@ -25,6 +25,7 @@ DEBUG_SECTIONS = [
   "Montana_Scene",
   "New_York_Scene",
   "Deported_Scene",
+  "to_chipapas_scene",
   "headquarters_scene"
 ]
 SCENE_ORDER = [
@@ -42,6 +43,7 @@ SCENE_ORDER = [
   "Montana_Scene",
   "New_York_Scene",
   "Deported_Scene",
+  "to_chipapas_scene",b
   "headquarters_scene"
 ]
 RESUME_SCENE_INDEX = 0
@@ -70,6 +72,11 @@ player = {
   "health": 20,
   "damage": 5
          }
+
+cartel = {
+  "true": False,
+  "payed": False
+}
 
 lives = 3
 
@@ -468,6 +475,22 @@ def play_game():
       tprint(f"You tell {getJeffy()} to eat the ICE Agents. He does so, and you are able to escape back to J.A.C.K. headquarters.\n")
       evolve_jeffy()
       player["damage"] += 15
+  if not skip_section("to_chipapas_scene"):
+    tprint("as you leave the mosh pit a angry cartel dealer stops you and points a gun at you. He says that he want $1,000 in gift cards by monday or he will find you and kill you.\n")
+    tprint("Options:\n1. Give him your contact information and tell him you will pay\n2. Give him fake information and hope he doesn't notice\n.3. Grab his gun and kill him with it\n4. Scream \"DO NOT REDEEM IT\" at him")
+    option = intput("")
+    if option == 1:
+      tprint("You give him your contact information and tell him you will pay. He says he will hold you to that and leaves.")
+      cartel["true"] = True
+    if option == 2:
+      tprint("You give him fake information but he feels a tingle deep in his sack and shoots you in the head")
+      death()
+    if option == 3:
+      tprint("You grab his gun and kill him with it. Nobody really liked that guy so the cartel is fine with it. you now do 20 more damage")
+      player["damage"] += 20
+    if option == 4:
+      tprint("You scream \"DO NOT REDEEM IT\" at him. He is confused and leaves you alone.")
+    tprint("you continue on to Chipapas, Mexico and find the J.A.C.K. headquarters. You have all three keys and are ready to go inside.\n")
   if not skip_section("headquarters_scene"):
     tprint("A group of very drunk scientists are there. They look you up and down and decide you are a threat to their work. You have no choice but to fight them.\n")
     fight("Drunk Scientists", 25, 20, player["health"], player["damage"])
