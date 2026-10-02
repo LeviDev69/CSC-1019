@@ -75,7 +75,6 @@ player = {
 
 cartel = {
   "true": False,
-  "payed": False
 }
 
 lives = 3
@@ -137,7 +136,7 @@ def score_add_up():
     score += Wilbur["damage"]
   score += player["damage"]
   score += player["health"]
-  score += Jeffy["tier"]
+  score += Jeffy["tier"] * 10
   print("Your score is:", score)
   
 
@@ -467,6 +466,7 @@ def play_game():
       death()
     elif option == "4":
       fight("Flock Camera Army", 80, 100, player["health"])
+  
   if not skip_section("New_York_Scene"):
 
     tprint("You arrive in Central Park, New York, and find a skyscraper in the center labeled 'J.A.C.K. Distribution Center.'\nYou head inside. As you pass through a metal detector, it goes off, and a robot comes over to attack you.\n")
@@ -522,7 +522,7 @@ def play_game():
         tprint("You pay him and he leaves you alone. You lose 20 health and damage")
         player["health"] -= 20
         player["damage"] -= 20
-        cartel["payed"] = True
+        cartel["true"] = False
       if option == 2:
         tprint("You tell him to go fuck himself. He tells you that you'll regret that and leaves")
         death()
@@ -540,9 +540,12 @@ def play_game():
       elif option == "3":
         tprint("As you try to go through, Donald Trump notices you and uses his ultimate: 'You are going to die. Everyone is talking about it, quite frankly.'\n")
         death()
-      elif option == "Outside The Box":
-        tprint("You find a secret door, continue down a dimly lit passage, and enter a room.\n")
-        tprint("You find your parents and destroy JackGPT. You win!\n")
+      elif option.lower().strip() == "outside the box":
+        tprint("You find a secret door, continue down a dimly lit passage, and enter a cavournous room.\n")
+        tprint(f"in the center is a massive robot that looks smart. {'you also see a group of cartel members' if cartel['true'] else 'He looks intimidating.'} when you enter the door behind you slams closed, and you hear the click of the door locking {'Jeffy starts climbing up the wall and turn into a cacoon, he will not be able to help you this fight'  if Jeffy['true'] else ''}\n")
+        Jeffy["true"] = False
+        tprint(f"You have no choice but to fight the robot {'and cartel' if cartel['true'] else ''}.\n")
+        fight("JackGPT", 75 if cartel['true'] else 50, 125 if cartel['true'] else 100, player["health"])
         break
       else:
         tprint("Invalid option. Try again.\n")
