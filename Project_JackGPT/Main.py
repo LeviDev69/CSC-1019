@@ -472,7 +472,7 @@ def play_game():
       tprint("You start a mob and bum rush the ICE Agents. You are successful, but you are shot in the back by a sniper.\n")
       death()
     elif option == 4:
-      tprint(f"You tell {getJeffy()} to eat the ICE Agents. He does so, and you are able to escape back to J.A.C.K. headquarters.\n")
+      tprint(f"You tell {getJeffy()} to eat the ICE Agents. He does so, and you are able to escape the mob.\n")
       evolve_jeffy()
       player["damage"] += 15
   if not skip_section("to_chipapas_scene"):
@@ -494,6 +494,17 @@ def play_game():
   if not skip_section("headquarters_scene"):
     tprint("A group of very drunk scientists are there. They look you up and down and decide you are a threat to their work. You have no choice but to fight them.\n")
     fight("Drunk Scientists", 25, 20, player["health"], player["damage"])
+    if cartel["true"]:
+      tprint("the cartel dealer you met earlier is waiting for you. He says that this is your last time to pay him.\nOptions:/n1. Pay him(-20 health and damage)2. Tell him to go fuck himself")
+      option = intput("")
+      if option == 1:
+        tprint("You pay him and he leaves you alone. You lose 20 health and damage")
+        player["health"] -= 20
+        player["damage"] -= 20
+        cartel["payed"] = True
+      if option == 2:
+        tprint("You tell him to go fuck himself. He tells you that you'll regret that and leaves")
+        death()
     tprint("Now that the scientists are gone, you search the large lobby and find the employee room. There's a nice delicous cup of coffee that you drink 4 cups of (+15 health). You then go to the bathroom and find three doors.\n\nOptions:\n1. Straight ahead, labeled 'Employees Only.'\n2. Upstairs, partly hidden.\n3. To the left, guarded by Donald Trump.\n(Hint: think Outside The Box)\n")
     player["health"] += 15
     while True:
