@@ -83,6 +83,17 @@ lives = 3
 class PlayerDeath(Exception):
   pass
 
+def get_damage():
+  global player, Jeffy, Tom, Wilbur
+  damage = player["damage"]
+  if Jeffy["true"]:
+    damage += Jeffy["damage"]
+  if Tom["true"]:
+    damage += Tom["damage"]
+  if Wilbur["true"]:
+    damage += Wilbur["damage"]
+  return damage
+
 def death():
   global lives, RESUME_SCENE_INDEX
   lives -= 1
@@ -231,16 +242,17 @@ def statcheck():
   global user
   tprint("====================================================================================================\n")
   tprint(f"Name: {user}\nCareer: D.A.F.D.A.L.U. (Dumpsters Association for Dumbasses Like You)\n")
-  tprint(f"Vehicle: Magic carpet\nAddress: Random Burger King parking lot\nHealth: {player['health']}\nDamage: {player['damage']}\n")
+  tprint(f"Vehicle: Magic carpet\nAddress: Random Burger King parking lot\nHealth: {player['health']}\nDamage: {get_damage()}\n")
 
-def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
+def fight(enemy, enemy_damage, enemy_health, player_health):
   tprint(f"You are fighting {enemy}\n")
   tprint(f"{enemy} Health: {enemy_health}\nYour Health: {player_health}\n")
   tprint("Options:\n1. Attack\n2. Defend\n3. Run\n")
   option = intput("")
   if option == 1:
-    tprint(f"You attack {enemy} for {player_damage} damage\n")
-    enemy_health -= player_damage
+    damage = get_damage()
+    tprint(f"You attack {enemy} for {damage} damage\n")
+    enemy_health -= damage
     if enemy_health <= 0:
       tprint(f"You have defeated {enemy}\n")
       return True
@@ -250,20 +262,20 @@ def fight(enemy, enemy_damage, enemy_health, player_health, player_damage):
       if player_health <= 0:
         death()
       else:
-        return fight(enemy, enemy_damage, enemy_health, player_health, player_damage)  
+        return fight(enemy, enemy_damage, enemy_health, player_health)
   elif option == 2:
     tprint(f"You defend against {enemy}'s attack\n")
     player_health -= enemy_damage / 2
     if player_health <= 0:
       death()
     else:
-      return fight(enemy, enemy_damage, enemy_health, player_health, player_damage)
+      return fight(enemy, enemy_damage, enemy_health, player_health)
   elif option == 3:
     tprint(f"You run away from {enemy}\n")
     return player_health
   else:
     tprint("Invalid option\n")
-    return fight(enemy, enemy_damage, enemy_health, player_health, player_damage)
+    return fight(enemy, enemy_damage, enemy_health, player_health)
 
 
 def play_game():
@@ -287,7 +299,6 @@ def play_game():
       elif option == 2:
         tprint(f"The music hypnotizes {getJeffy()}, and he follows you. (+5 attack damage)\n")
         Jeffy["true"] = True
-        player["damage"] += 5
       elif option == 3:
         tprint(f"You call HR to report him. As you raise the phone to your ear, {getJeffy()} sees whom you are calling and lunges at you, accidentally snapping your neck.\n")
         death()
@@ -323,7 +334,7 @@ def play_game():
     player["health"] += 5
 
   if not skip_section("fight_scene"):
-    fight("Homeless Tweaker", 5, 10, player["health"], player["damage"])
+    fight("Homeless Tweaker", 5, 10, player["health"])
 
   if not skip_section("camp_scene"):
 
@@ -339,7 +350,6 @@ def play_game():
         option = intput("")
       if option == 1:
         tprint("You find Tom and give him a fun time. Afterward, he joins you on your journey (+10 attack damage).\n")
-        player["damage"] += 10
         Tom["true"] = True
       if option == 2:
         tprint("You spend a fun night with the ox, but it senses that you have an STD and kicks you to death.\n")
@@ -351,7 +361,7 @@ def play_game():
 
   if not skip_section("portal_scene"):
     tprint("You ride Tom to the other side of the camp and find a pocket portal guarded by a large man. You must fight him to reach the portal.\n")
-    fight("Fat Homeless Dude", 10, 40, player["health"], player["damage"])
+    fight("Fat Homeless Dude", 10, 40, player["health"])
     tprint("You enter the portal, and a nauseating strobing effect lasts for a few seconds.\n")
     time.sleep(3)
   if not skip_section("flash_scene"):
@@ -362,7 +372,7 @@ def play_game():
     option = intput("")
     if option == 1:
       
-      fight("Wilbur the Pig", 15, 30, player["health"], player["damage"])
+      fight("Wilbur the Pig", 15, 30, player["health"])
       tprint("After defeating Wilbur, you interrogate him and learn that the superweapon is in Chipapas, Mexico. He was kidnapped to be turned into jerky, but escaped in a stolen helicopter.\n")
     elif option == 2:
       tprint("You admit that you are the father of Wilbur's piglets, and he brutally beats you to dnts in Main.py:154 to advance the tiereath.\n")
@@ -401,7 +411,7 @@ def play_game():
       elif option == "3":
         tprint(f"You feed {getJeffy()}.\n")
         evolve_jeffy()
-        player["damage"] += 15
+        Jeffy["damage"] += 15
     else:
       tprint("You arrive in Chipapas, Mexico, very close to J.A.C.K. headquarters. Your stomach rumbles, and you might collapse because you have not eaten since the journey began.\n\nOptions:\n1. Eat to restore your health.\n2. Ignore your hunger and continue toward headquarters.\n")
       option = input("")
@@ -444,18 +454,18 @@ def play_game():
     elif option == "2":
       tprint(f"You send {getJeffy()} to eat the cameras. He eats them all, and you successfully get the key.\n")
       evolve_jeffy()
-      player["damage"] += 15
+      Jeffy["damage"] += 15
       key1 = True
     elif option == "3":
       tprint("The Flock cameras try to shoot the pigeons but miss. One shot hits a forest and sets the whole state of Oregon on fire; another misses and hits you.\n")
       death()
     elif option == "4":
-      fight("Flock Camera Army", 80, 100, player["health"], player["damage"])
+      fight("Flock Camera Army", 80, 100, player["health"])
   if not skip_section("New_York_Scene"):
     tprint("You arrive in Central Park, New York, and find a skyscraper in the center labeled 'J.A.C.K. Distribution Center.'\nYou head inside. As you pass through a metal detector, it goes off, and a robot comes over to attack you.\n")
-    fight("robot", 30, 60, player["health"], player["damage"])
+    fight("robot", 30, 60, player["health"])
     tprint("You find a door to the employees' lounge and go through it. In the back, you find a key guarded by a Tesla robot.\n")
-    fight("Tesla Clanker", 5,  2, player["health"], player["damage"])
+    fight("Tesla Clanker", 5,  2, player["health"])
   
     #Still need to add the last key scene
   if not skip_section("deported_scene"):
@@ -474,7 +484,7 @@ def play_game():
     elif option == 4:
       tprint(f"You tell {getJeffy()} to eat the ICE Agents. He does so, and you are able to escape the mob.\n")
       evolve_jeffy()
-      player["damage"] += 15
+      Jeffy["damage"] += 15
   if not skip_section("to_chipapas_scene"):
     tprint("as you leave the mosh pit a angry cartel dealer stops you and points a gun at you. He says that he want $1,000 in gift cards by monday or he will find you and kill you.\n")
     tprint("Options:\n1. Give him your contact information and tell him you will pay\n2. Give him fake information and hope he doesn't notice\n.3. Grab his gun and kill him with it\n4. Scream \"DO NOT REDEEM IT\" at him")
@@ -493,7 +503,7 @@ def play_game():
     tprint("you continue on to Chipapas, Mexico and find the J.A.C.K. headquarters. You have all three keys and are ready to go inside.\n")
   if not skip_section("headquarters_scene"):
     tprint("A group of very drunk scientists are there. They look you up and down and decide you are a threat to their work. You have no choice but to fight them.\n")
-    fight("Drunk Scientists", 25, 20, player["health"], player["damage"])
+    fight("Drunk Scientists", 25, 20, player["health"])
     if cartel["true"]:
       tprint("the cartel dealer you met earlier is waiting for you. He says that this is your last time to pay him.\nOptions:/n1. Pay him(-20 health and damage)2. Tell him to go fuck himself")
       option = intput("")
