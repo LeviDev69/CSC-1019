@@ -24,6 +24,7 @@ DEBUG_SECTIONS = [
   "Headquarters_Exterior_Scene1",
   "Montana_Scene",
   "New_York_Scene",
+  "florida_scene",
   "Deported_Scene",
   "to_chipapas_scene",
   "headquarters_scene"
@@ -42,6 +43,7 @@ SCENE_ORDER = [
   "Headquarters_Exterior_Scene1",
   "Montana_Scene",
   "New_York_Scene",
+  "florida_scene",
   "Deported_Scene",
   "to_chipapas_scene",
   "headquarters_scene"
@@ -476,6 +478,23 @@ def play_game():
   
     #Still need to add the last key scene
   
+  if not skip_section("florida_scene"):
+    tprint("You arrive in Florida and find a key gaurded by a group of aligators controlled by Florida Man.\nOptions:\n1. Fight the aligators\n2. Try to sneak up on Florida Man and kill him\n3. Try to reason with Florida Man\n4. Tell Jeffy to eat Florida Man\n")
+    option = intput("")
+    if option == 1:
+      tprint("You fight the aligators, but they are too strong and you are eaten alive.\n")
+      death()
+    elif option == 2:
+      tprint("You try to sneak up on Florida Man, but he senses you behind him and whips arround, grabbing you in a choke hold\n")
+      death()
+    elif option == 3:
+      tprint("You try to reason with Florida Man, he listens and helps you on your quest. Letting Jeffy eat one of his alligators for a snack.\n")
+      evolve_jeffy()
+      Jeffy["damage"] += 15
+    elif option == 4:
+      tprint("You tell Jeffy to eat Florida Man, he does so, and you are able to get the key.\n")
+      evolve_jeffy()
+      Jeffy["damage"] += 15
   if not skip_section("deported_scene"):
 
     tprint("You have now collected all three keys and are ready to go back to the J.A.C.K. headquarters. as you leave florida a group of ICE Agents stop you and ask for your papers. When you cannon give them anything they tackle you and take you back to Mexico. Dumping you in a massive mosh pit of angry people trying to get back into the US.\n")
