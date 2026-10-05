@@ -6,10 +6,15 @@ import sys
 import termios
 import time
 import tty
+import json
 
 user = ""
 tprintDel = 0.07
 pending_input = ""
+start_time = 0
+end_time = 0
+ttb = 0
+
 DEBUG_SKIP = 0
 DEBUG_SECTIONS = [
   "jeffy_scene",
@@ -149,6 +154,8 @@ def score_add_up():
 
 #credits, leave at the end
 def credits():
+  global start_time, end_time, ttb, user
+  ttb = end_time - start_time
   time.sleep(3)
   tprint("Credits:\n")
   tprint("Lead developers: Jack Allington and Cannon Rodriguez\n")
@@ -165,7 +172,18 @@ def credits():
   tprint(f"ps. {getJeffy()} is in Alaska\n")
   time.sleep(3)
   tprint("Something is coming in three days\n")
-  
+  tprint(f"Total time played: {ttb} seconds\n")
+  leader_data = {
+    user: user,
+    time: ttb,
+  }
+  with open("score.json", "w") as f:
+    json.dump(leader_data, f)
+  with open("score.json", "r") as f:
+    data = json.load(f)
+  tprint("Leaderboard:\n")
+  for user, time in data.items():
+    tprint(f"{user}: {time} seconds\n")
 
 def skip_section(section_name):
   global CURRENT_SCENE_INDEX
@@ -278,7 +296,7 @@ def fight(enemy, enemy_damage, enemy_health, player_health):
 
 
 def play_game():
-  global user, player, Jeffy, Tom, tprintDel
+  global user, player, Jeffy, Tom, tprintDel, Wilbur, start_time, end_time, ttb
   if RESUME_SCENE_INDEX == 0:
     tprint("Welcome to Project J.A.C.K. GPT. Enter q at any time to quit.\n\n")
   else:
@@ -517,7 +535,7 @@ def play_game():
   
   if not skip_section("to_chipapas_scene"):
     tprint("as you leave the mosh pit a angry cartel dealer stops you and points a gun at you. He says that he want $1,000 in gift cards by monday or he will find you and kill you.\n")
-    tprint("Options:\n1. Give him your contact information and tell him you will pay\n2. Give him fake information and hope he doesn't notice\n.3. Grab his gun and kill him with it\n4. Scream \"DO NOT REDEEM IT\" at him")
+    tprint("Options:\n1. Give him your contact information and tell him you will pay\n2. Give him fake information and hope he doesn't notice\n3. Grab his gun and kill him with it\n4. Scream \"DO NOT REDEEM IT\" at him\n")
     option = intput("")
     if option == 1:
       tprint("You give him your contact information and tell him you will pay. He says he will hold you to that and leaves.")
@@ -575,8 +593,40 @@ def play_game():
     question = input("What would you like to ask JackGPT? (press c to continue) ")
     if question.lower().strip() == "c":
       tprint("You find out a crucial detail: he's dumb. Your parents were just nerds about a developing ai and everyone misunderstood.")
+      end_time = time.time()
     else:
-      tprint(random.randint["I don't know", "Ask someone else", "I think that's not something I know"])
+      tprint(random.choice([
+    "I do not know",
+    "I don't know",
+    "I have no idea",
+    "I have no clue",
+    "I am not sure",
+    "I'm not sure",
+    "I have no notion",
+    "I haven't the faintest idea",
+    "I haven't the foggiest idea",
+    "I haven't the foggiest",
+    "I have no concept",
+    "I cannot say",
+    "I'm unsure",
+    "I am uncertain",
+    "It is unknown to me",
+    "I'm at a loss",
+    "I do not possess that information",
+    "I am uninformed on this",
+    "I'm completely in the dark",
+    "I do not recall",
+    "I have zero idea",
+    "I don't have a clue",
+    "I couldn't tell you",
+    "Beat me",
+    "Who knows",
+    "God knows",
+    "Heaven knows",
+    "Your guess is as good as mine",
+    "I don't hold the answer",
+    "I am not aware",
+]))
     tprint("You ask him where your parents are, and for once he does know. He tells you that they are in a secret chamber and he reveals them to you because he realizes you are just a kid. He releases your parents and you introduce them to all you companions. Things are back to normal now.\n")
     if Jeffy["true"]:
       tprint("You ride jeffy back to oregon.")
@@ -585,22 +635,33 @@ def play_game():
     tprint("\nAfter a long and tiring journey, you finally step on a hypodermic needle and go into a drug-induced coma and die.")
     sys.exit("Game over, you have died.")
 def game():
-  global user, player, Jeffy, Wilbur, Tom
+  global user, player, Jeffy, Wilbur, Tom, start_time, end_time, ttb
+  with open("score.json", "r") as f:
+    try:
+      data = json.load(f)
+      if isinstance(data, dict):
+        tprint("Leaderboard:\n")
+        for user, time in data.items():
+          tprint(f"{user}: {time} seconds\n")
+      else:
+        tprint("Leaderboard is empty or corrupted.\n")
+    except json.JSONDecodeError:
+      tprint("Leaderboard is empty or corrupted.\n")
   user = qinput("Please enter your name: ")
   player = {"health": 20, "damage": 5}
   Jeffy = {"true": False, "damage": 5, "tier": 0, "tiers": ["Jeffy", "Jeffry", "Jeffred", "Geoffry"]}
   Wilbur = {"true": False, "damage": 15}
   Tom = {"true": False, "damage": 10}
-  while True:
-    set_debug_mode(user)
-    try:
-      play_game()
-      return
-    except PlayerDeath:
-      snapshot = SCENE_SNAPSHOTS.get(RESUME_SCENE_INDEX)
-      if snapshot is not None:
-        player, Jeffy, Tom, Wilbur = copy.deepcopy(snapshot)
-      continue
+  start_time = time.time()
+  set_debug_mode(user)
+  try:
+    play_game()
+    return
+  except PlayerDeath:
+    snapshot = SCENE_SNAPSHOTS.get(RESUME_SCENE_INDEX)
+    if snapshot is not None:
+      player, Jeffy, Tom, Wilbur = copy.deepcopy(snapshot)
+    
 
   
 
