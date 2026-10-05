@@ -1,12 +1,16 @@
 import copy
 import os
-from random import random
+import random
 import select
 import sys
 import termios
 import time
 import tty
 import json
+import math
+
+LEADERBOARD_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "leaderboard.json")
+LEADERBOARD_LIMIT = 10
 
 user = ""
 tprintDel = 0.07
@@ -149,11 +153,84 @@ def score_add_up():
   score += player["health"]
   score += Jeffy["tier"] * 10
   print("Your score is:", score)
-  
+  return score
 
 
-#credits, leave at the end
-def credits():
+def load_leaderboard():
+  try:
+    with open(LEADERBOARD_PATH, "r", encoding="utf-8") as f:
+      data = json.load(f)
+  except FileNotFoundError:
+    return {}
+  except json.JSONDecodeError:
+    print("Leaderboard data is empty or invalid; starting a new leaderboard.")
+    return {}
+
+  if not isinstance(data, dict):
+    print("Leaderboard data is invalid; starting a new leaderboard.")
+    return {}
+
+  entries = {}
+  skipped_entry = False
+  for name, record in data.items():
+    if not isinstance(name, str):
+      skipped_entry = True
+      continue
+    if isinstance(record, dict):
+      elapsed = record.get("time")
+      score = record.get("score", 0)
+    else:
+      elapsed = record
+      score = 0
+    if (
+      isinstance(elapsed, (int, float))
+      and not isinstance(elapsed, bool)
+      and elapsed >= 0
+      and (not isinstance(elapsed, float) or math.isfinite(elapsed))
+      and isinstance(score, int)
+      and not isinstance(score, bool)
+    ):
+      entries[name] = {"time": elapsed, "score": score}
+    else:
+      skipped_entry = True
+  if skipped_entry:
+    print("Some invalid leaderboard entries were skipped.")
+  return entries
+
+
+def show_leaderboard(entries):
+  if not entries:
+    tprint("Leaderboard is empty.\n")
+    return
+  tprint("Leaderboard (fastest completion times):\n")
+  ranked_entries = sorted(
+    entries.items(),
+    key=lambda entry: (entry[1]["time"], -entry[1]["score"], entry[0].casefold())
+  )
+  for rank, (name, record) in enumerate(ranked_entries[:LEADERBOARD_LIMIT], start=1):
+    tprint(f"{rank}. {name}: {record['time']:.2f} seconds (score: {record['score']})\n")
+
+
+def save_leaderboard(entries):
+  with open(LEADERBOARD_PATH, "w", encoding="utf-8") as f:
+    json.dump(entries, f, indent=2)
+
+
+def record_leaderboard_result(username, elapsed, score):
+  entries = load_leaderboard()
+  previous = entries.get(username)
+  if (
+    previous is None
+    or elapsed < previous["time"]
+    or (elapsed == previous["time"] and score > previous["score"])
+  ):
+    entries[username] = {"time": elapsed, "score": score}
+  save_leaderboard(entries)
+  show_leaderboard(entries)
+
+
+# credits, leave at the end
+def credits(score):
   global start_time, end_time, ttb, user
   ttb = end_time - start_time
   time.sleep(3)
@@ -173,17 +250,7 @@ def credits():
   time.sleep(3)
   tprint("Something is coming in three days\n")
   tprint(f"Total time played: {ttb} seconds\n")
-  leader_data = {
-    user: user,
-    time: ttb,
-  }
-  with open("score.json", "w") as f:
-    json.dump(leader_data, f)
-  with open("score.json", "r") as f:
-    data = json.load(f)
-  tprint("Leaderboard:\n")
-  for user, time in data.items():
-    tprint(f"{user}: {time} seconds\n")
+  record_leaderboard_result(user, ttb, score)
 
 def skip_section(section_name):
   global CURRENT_SCENE_INDEX
@@ -593,7 +660,6 @@ def play_game():
     question = input("What would you like to ask JackGPT? (press c to continue) ")
     if question.lower().strip() == "c":
       tprint("You find out a crucial detail: he's dumb. Your parents were just nerds about a developing ai and everyone misunderstood.")
-      end_time = time.time()
     else:
       tprint(random.choice([
     "I do not know",
@@ -633,34 +699,26 @@ def play_game():
     else:
       tprint("You buy tickets and fly back to oregon.")
     tprint("\nAfter a long and tiring journey, you finally step on a hypodermic needle and go into a drug-induced coma and die.")
-    sys.exit("Game over, you have died.")
+    end_time = time.time()
 def game():
   global user, player, Jeffy, Wilbur, Tom, start_time, end_time, ttb
-  with open("score.json", "r") as f:
-    try:
-      data = json.load(f)
-      if isinstance(data, dict):
-        tprint("Leaderboard:\n")
-        for user, time in data.items():
-          tprint(f"{user}: {time} seconds\n")
-      else:
-        tprint("Leaderboard is empty or corrupted.\n")
-    except json.JSONDecodeError:
-      tprint("Leaderboard is empty or corrupted.\n")
+  show_leaderboard(load_leaderboard())
   user = qinput("Please enter your name: ")
   player = {"health": 20, "damage": 5}
   Jeffy = {"true": False, "damage": 5, "tier": 0, "tiers": ["Jeffy", "Jeffry", "Jeffred", "Geoffry"]}
   Wilbur = {"true": False, "damage": 15}
   Tom = {"true": False, "damage": 10}
+  end_time = 0
   start_time = time.time()
   set_debug_mode(user)
   try:
     play_game()
-    return
+    return end_time > start_time
   except PlayerDeath:
     snapshot = SCENE_SNAPSHOTS.get(RESUME_SCENE_INDEX)
     if snapshot is not None:
       player, Jeffy, Tom, Wilbur = copy.deepcopy(snapshot)
+    return False
     
 
   
@@ -668,8 +726,8 @@ def game():
   
       
 if __name__ == "__main__":
-  game()
-  score_add_up()
-  credits()
+  if game():
+    score = score_add_up()
+    credits(score)
 
  
