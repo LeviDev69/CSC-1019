@@ -252,7 +252,7 @@ def statcheck():
 def fight(enemy, enemy_damage, enemy_health, player_health):
   tprint(f"You are fighting {enemy}\n")
   tprint(f"{enemy} Health: {enemy_health}\nYour Health: {player_health}\n")
-  tprint("Options:\n1. Attack\n2. Defend\n3. Run\n")
+  tprint("Options:\n1. Attack\n2. Defend\n")
   option = intput("")
   if option == 1:
     damage = get_damage()
@@ -275,12 +275,6 @@ def fight(enemy, enemy_damage, enemy_health, player_health):
       death()
     else:
       return fight(enemy, enemy_damage, enemy_health, player_health)
-  elif option == 3:
-    tprint(f"You run away from {enemy}\n")
-    return player_health
-  else:
-    tprint("Invalid option\n")
-    return fight(enemy, enemy_damage, enemy_health, player_health)
 
 
 def play_game():
@@ -459,20 +453,19 @@ def play_game():
 
     tprint(f"You travel to Montana and find a large key guarded by a small army of Flock cameras. They are invading your privacy. What do you do?\n\nOptions:\n1. Take a bath in RUST-OLEUM 214944 and go at night so they cannot see you.\n2. Send {getJeffy()} to eat them.\n3. Hire a nearby flock of pigeons to swarm the cameras.\n4. Fight the cameras.\n")
     option = intput("")
-    if option == "1":
+    if option == 1:
       tprint("You take a bath in RUST-OLEUM 214944 and go at night so they cannot see you. You sneak past the cameras and grab the key. As you leave, the cameras detect your phone's Bluetooth signal and shoot blindly, killing a small family in the process.\n")
       key1 = True
-    elif option == "2":
+    elif option == 2:
       tprint(f"You send {getJeffy()} to eat the cameras. He eats them all, and you successfully get the key.\n")
       evolve_jeffy()
       Jeffy["damage"] += 15
       key1 = True
-    elif option == "3":
-      tprint("The Flock cameras try to shoot the pigeons but miss. One shot hits a forest and sets the whole state of Oregon on fire; another misses and hits you.\n")
+    elif option == 3:
+      tprint("The Flock cameras try to shoot the pigeons but miss. One shot hits a forest and sets the whole state of Montana on fire; another misses and hits you.\n")
       death()
-    elif option == "4":
-      if fight("Flock Camera Army", 15, 40, player["health"]) is True:
-        tprint("You defeat the Flock cameras and grab the key.\n")
+    elif option == 4:
+      fight("Flock Camera Army", 80, 100, player["health"])
   
   if not skip_section("New_York_Scene"):
 
@@ -500,6 +493,7 @@ def play_game():
       tprint("You tell Jeffy to eat Florida Man, he does so, and you are able to get the key.\n")
       evolve_jeffy()
       Jeffy["damage"] += 15
+  
   if not skip_section("deported_scene"):
 
     tprint("You have now collected all three keys and are ready to go back to the J.A.C.K. headquarters. as you leave florida a group of ICE Agents stop you and ask for your papers. When you cannon give them anything they tackle you and take you back to Mexico. Dumping you in a massive mosh pit of angry people trying to get back into the US.\n")
