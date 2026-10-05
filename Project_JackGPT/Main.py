@@ -28,7 +28,8 @@ DEBUG_SECTIONS = [
   "florida_scene",
   "Deported_Scene",
   "to_chipapas_scene",
-  "headquarters_scene"
+  "headquarters_scene",
+  "Ending"
 ]
 
 SCENE_ORDER = [
