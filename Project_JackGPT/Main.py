@@ -48,7 +48,8 @@ SCENE_ORDER = [
   "florida_scene",
   "Deported_Scene",
   "to_chipapas_scene",
-  "headquarters_scene"
+  "headquarters_scene",
+  "Ending"
 ]
 RESUME_SCENE_INDEX = 0
 CURRENT_SCENE_INDEX = 0
