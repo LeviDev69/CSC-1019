@@ -346,7 +346,6 @@ def play_game():
       option = intput("")
       if option == 3:
         tprint("You share a nice kiss, but nothing comes of it...\n")
-        option = intput("")
       if option == 1:
         tprint("You find Tom and give him a fun time. Afterward, he joins you on your journey (+10 attack damage).\n")
         Tom["true"] = True
@@ -359,7 +358,10 @@ def play_game():
       print(f"ERROR: {e}")
 
   if not skip_section("portal_scene"):
-    tprint("You ride Tom to the other side of the camp and find a pocket portal guarded by a large man. You must fight him to reach the portal.\n")
+    if Tom["true"]:
+      tprint("You ride Tom to the other side of the camp and find a pocket portal guarded by a large man. You must fight him to reach the portal.\n")
+    else:
+      tprint("You walk to the other side of the camp and find a pocket portal guarded by a large man. You must fight him to reach the portal.\n")
     fight("Fat Homeless Dude", 10, 40, player["health"])
     tprint("You enter the portal, and a nauseating strobing effect lasts for a few seconds.\n")
     time.sleep(3)
