@@ -1,5 +1,6 @@
 import copy
 import os
+from random import random
 import select
 import sys
 import termios
@@ -468,7 +469,8 @@ def play_game():
       tprint("The Flock cameras try to shoot the pigeons but miss. One shot hits a forest and sets the whole state of Oregon on fire; another misses and hits you.\n")
       death()
     elif option == "4":
-      fight("Flock Camera Army", 80, 100, player["health"])
+      if fight("Flock Camera Army", 15, 40, player["health"]) is True:
+        tprint("You defeat the Flock cameras and grab the key.\n")
   
   if not skip_section("New_York_Scene"):
 
@@ -569,7 +571,21 @@ def play_game():
         break
       else:
         tprint("Invalid option. Try again.\n")
-
+  if not skip_section("Ending"):
+    tprint("After you defeat the robot, he falls over, defeated.\n\"Why would you do that to me?\" He askes. You explain how you thought he would destroy the world. He tells you to ask him a question.\n")
+    tprint("You are now talking to JackGPT.")
+    question = input("What would you like to ask JackGPT? (press c to continue) ")
+    if question.lower().strip() == "c":
+      tprint("You find out a crucial detail: he's dumb. Your parents were just nerds about a developing ai and everyone misunderstood.")
+    else:
+      tprint(random.randint["I don't know", "Ask someone else", "I think that's not something I know"])
+    tprint("You ask him where your parents are, and for once he does know. He tells you that they are in a secret chamber and he reveals them to you because he realizes you are just a kid. He releases your parents and you introduce them to all you companions. Things are back to normal now.\n")
+    if Jeffy["true"]:
+      tprint("You ride jeffy back to oregon.")
+    else:
+      tprint("You buy tickets and fly back to oregon.")
+    tprint("\nAfter a long and tiring journey, you finally step on a hypodermic needle and go into a drug-induced coma and die.")
+    sys.exit("Game over, you have died.")
 def game():
   global user, player, Jeffy, Wilbur, Tom
   user = qinput("Please enter your name: ")
