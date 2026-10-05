@@ -240,7 +240,7 @@ def credits(score):
   tprint("Lead game developer: Cannon Rodriguez\n")
   tprint("Co-programmer Cannon Rodriguez\n")
   tprint("Co-developer Jack Allington\n")
-  tprint("Game testers: Peter Vue and Daniel Lavin")
+  tprint("Game testers: Peter Vue and Daniel Lavin\n")
   tprint("Hawaii scene: Josh Yeager\n")
   tprint("Main character bonus: Cannon Rodriguez\n")
   tprint("Cool birb bonus: Jack Allington\n")
@@ -317,7 +317,7 @@ def qinput(prompt):
   if u in quit_statements:
     sys.exit("User Exited")
   return u
-
+  
 def intput(prompt):
   i = True
   while i:
