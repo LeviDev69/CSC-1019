@@ -720,6 +720,7 @@ def game():
     user = qinput("Please enter your name: ")
     if user.lower().strip() == "jeffy":
         tprint("There can only be one Jeffy. Please procede to the nearest cliff and jump off.\n")
+        user = ""
   
   player = {"health": 20, "damage": 5}
   Jeffy = {"true": False, "damage": 5, "tier": 0, "tiers": ["Jeffy", "Jeffry", "Jeffred", "Geoffry"]}
