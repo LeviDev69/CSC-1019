@@ -139,7 +139,7 @@ def set_debug_mode(username):
       player["health"] = 999
 
 
-def score_add_up():
+def score_add_up(ttb):
   global player, Jeffy, Tom, Wilbur
   score = 0
   score += player["health"]
@@ -152,6 +152,7 @@ def score_add_up():
   score += player["damage"]
   score += player["health"]
   score += Jeffy["tier"] * 10
+  score += (1000-ttb) * 0.5
   print("Your score is:", score)
   return score
 
@@ -202,13 +203,13 @@ def show_leaderboard(entries):
   if not entries:
     tprint("Leaderboard is empty.\n")
     return
-  tprint("Leaderboard (fastest completion times):\n")
+  tprint("Leaderboard (highest scores):\n")
   ranked_entries = sorted(
     entries.items(),
-    key=lambda entry: (entry[1]["time"], -entry[1]["score"], entry[0].casefold())
+    key=lambda entry: (-entry[1]["score"], entry[1]["time"], entry[0].casefold())
   )
   for rank, (name, record) in enumerate(ranked_entries[:LEADERBOARD_LIMIT], start=1):
-    tprint(f"{rank}. {name}: {record['time']:.2f} seconds (score: {record['score']})\n")
+    tprint(f"{rank}. {name}: {record['score']} ({record['time']:.2f} seconds)\n")
 
 
 def save_leaderboard(entries):
@@ -221,16 +222,15 @@ def record_leaderboard_result(username, elapsed, score):
   previous = entries.get(username)
   if (
     previous is None
-    or elapsed < previous["time"]
-    or (elapsed == previous["time"] and score > previous["score"])
+    or score > previous["score"]
+    or (score == previous["score"] and elapsed < previous["time"])
   ):
     entries[username] = {"time": elapsed, "score": score}
   save_leaderboard(entries)
   show_leaderboard(entries)
 
 
-# credits, leave at the end
-def credits(score):
+def credits():
   global start_time, end_time, ttb, user
   ttb = end_time - start_time
   time.sleep(3)
@@ -737,14 +737,6 @@ def game():
       if snapshot is not None:
         player, Jeffy, Tom, Wilbur = copy.deepcopy(snapshot)
     
-
-  
-
-  
-      
 if __name__ == "__main__":
   if game():
-    score = score_add_up()
-    credits(score)
-
- 
+    credits()
