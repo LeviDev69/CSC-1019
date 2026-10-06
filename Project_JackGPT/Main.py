@@ -542,16 +542,19 @@ def play_game():
 
   if not skip_section("Montana_Scene"): 
 
-    tprint(f"You travel to Montana and find a large key guarded by a small army of Flock cameras. They are invading your privacy. What do you do?\n\nOptions:\n1. Take a bath in RUST-OLEUM 214944 and go at night so they cannot see you.\n2. Send {getJeffy()} to eat them.\n3. Hire a nearby flock of pigeons to swarm the cameras.\n4. Fight the cameras.\n")
+    tprint(f"You travel to Montana and find a large key guarded by a small army of Flock cameras. They are invading your privacy. What do you do?\n\nOptions:\n1. Take a bath in RUST-OLEUM 214944 and go at night so they cannot see you.\n{f'2. Send {getJeffy()} to eat them.' if Jeffy["true"] == True else '2. Give up on your mission'}\n3. Hire a nearby flock of pigeons to swarm the cameras.\n4. Fight the cameras.\n")
     option = intput("")
     if option == 1:
       tprint("You take a bath in RUST-OLEUM 214944 and go at night so they cannot see you. You sneak past the cameras and grab the key. As you leave, the cameras detect your phone's Bluetooth signal and shoot blindly, killing a small family in the process.\n")
       key1 = True
-    elif option == 2:
+    elif option == 2 and Jeffy["true"] == True:
       tprint(f"You send {getJeffy()} to eat the cameras. He eats them all, and you successfully get the key.\n")
       evolve_jeffy()
       Jeffy["damage"] += 15
       key1 = True
+    elif option == 2 and Jeffy["true"] == False:
+      tprint("You give up on your mission and go home. You are a failure.\n")
+      death()
     elif option == 3:
       tprint("The Flock cameras try to shoot the pigeons but miss. One shot hits a forest and sets the whole state of Montana on fire; another misses and hits you.\n")
       death()
@@ -572,11 +575,11 @@ def play_game():
     if option == 1:
       tprint("You fight the aligators, but they are too strong and you are eaten alive.\n")
       death()
-    elif option == 2:
+    elif option == 2 and Jeffy["true"] == True:
       tprint("You try to sneak up on Florida Man, but he senses you behind him and whips arround, grabbing you in a choke hold\n")
       death()
     elif option == 3:
-      tprint("You try to reason with Florida Man, he listens and helps you on your quest. Letting Jeffy eat one of his alligators for a snack.\n")
+      tprint(f"You try to reason with Florida Man, he listens and helps you on your quest.{" Letting Jeffy eat one of his alligators for a snack." if Jeffy["true"] == True else ""}\n")
       evolve_jeffy()
       Jeffy["damage"] += 15
     elif option == 4 and Jeffy["true"] == True:
@@ -706,7 +709,9 @@ def game():
   global user, player, Jeffy, Wilbur, Tom, start_time, end_time, ttb
   global lives, RESUME_SCENE_INDEX, CURRENT_SCENE_INDEX
   show_leaderboard(load_leaderboard())
-  user = qinput("Please enter your name: ")
+  user = ""
+  while user =="":
+    user = qinput("Please enter your name: ")
   player = {"health": 20, "damage": 5}
   Jeffy = {"true": False, "damage": 5, "tier": 0, "tiers": ["Jeffy", "Jeffry", "Jeffred", "Geoffry"]}
   Wilbur = {"true": False, "damage": 15}
