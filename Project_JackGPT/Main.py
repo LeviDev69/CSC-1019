@@ -10,7 +10,7 @@ import json
 import math
 
 LEADERBOARD_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "leaderboard.json")
-LEADERBOARD_LIMIT = 10
+LEADERBOARD_LIMIT = 15
 
 user = ""
 tprintDel = 0.07
@@ -188,8 +188,9 @@ def load_leaderboard():
       and not isinstance(elapsed, bool)
       and elapsed >= 0
       and (not isinstance(elapsed, float) or math.isfinite(elapsed))
-      and isinstance(score, int)
+      and isinstance(score, (int, float))
       and not isinstance(score, bool)
+      and math.isfinite(score)
     ):
       entries[name] = {"time": elapsed, "score": score}
     else:
@@ -715,8 +716,11 @@ def game():
   global lives, RESUME_SCENE_INDEX, CURRENT_SCENE_INDEX
   show_leaderboard(load_leaderboard())
   user = ""
-  while user =="":
+  while user =="" and user != "Jeffy":
     user = qinput("Please enter your name: ")
+    if user.lower().strip() == "jeffy":
+        tprint("There can only be one Jeffy. Please procede to the nearest cliff and jump off.\n")
+  
   player = {"health": 20, "damage": 5}
   Jeffy = {"true": False, "damage": 5, "tier": 0, "tiers": ["Jeffy", "Jeffry", "Jeffred", "Geoffry"]}
   Wilbur = {"true": False, "damage": 15}
