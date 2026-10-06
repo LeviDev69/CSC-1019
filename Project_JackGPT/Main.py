@@ -565,10 +565,9 @@ def play_game():
     tprint("You find a door to the employees' lounge and go through it. In the back, you find a key guarded by a Tesla robot.\n")
     fight("Tesla Clanker", 5,  2, player["health"])
   
-    #Still need to add the last key scene
   
   if not skip_section("florida_scene"):
-    tprint("You arrive in Florida and find a key gaurded by a group of aligators controlled by Florida Man.\nOptions:\n1. Fight the aligators\n2. Try to sneak up on Florida Man and kill him\n3. Try to reason with Florida Man\n4. Tell Jeffy to eat Florida Man\n")
+    tprint(f"You arrive in Florida and find a key gaurded by a group of aligators controlled by Florida Man.\nOptions:\n1. Fight the aligators\n2. Try to sneak up on Florida Man and kill him\n3. Try to reason with Florida Man\n{f"4. Tell {getJeffy()} to eat Florida Man" if Jeffy["true"] == True else ""}\n")
     option = intput("")
     if option == 1:
       tprint("You fight the aligators, but they are too strong and you are eaten alive.\n")
@@ -580,7 +579,7 @@ def play_game():
       tprint("You try to reason with Florida Man, he listens and helps you on your quest. Letting Jeffy eat one of his alligators for a snack.\n")
       evolve_jeffy()
       Jeffy["damage"] += 15
-    elif option == 4:
+    elif option == 4 and Jeffy["true"] == True:
       tprint(f"You tell {getJeffy()} to eat Florida Man, he does so, and you are able to get the key.\n")
       evolve_jeffy()
       Jeffy["damage"] += 15
@@ -588,7 +587,7 @@ def play_game():
   if not skip_section("Deported_Scene"):
 
     tprint("You have now collected all three keys and are ready to go back to the J.A.C.K. headquarters. as you leave florida a group of ICE Agents stop you and ask for your papers. When you cannon give them anything they tackle you and take you back to Mexico. Dumping you in a massive mosh pit of angry people trying to get back into the US.\n")
-    tprint(f"Options:\n1. Try to get through the croud\n2.Try to reason with a nearby ICE Agent\n3.Start a mob and bum rush the ICE Agents\n4.Tell {getJeffy()} to eat the ICE Agents\n")
+    tprint(f"Options:\n1. Try to get through the croud\n2.Try to reason with a nearby ICE Agent\n3.Start a mob and bum rush the ICE Agents\n{f'4.Tell {getJeffy()} to eat the ICE Agents' if Jeffy["true"] == True else ''}\n")
     option = intput("")
     if option == 1:
       tprint("You try to get through the croud but are trampled to death.\n")
@@ -599,7 +598,7 @@ def play_game():
     elif option == 3:
       tprint("You start a mob and bum rush the ICE Agents. You are successful, but you are shot in the back by a sniper.\n")
       death()
-    elif option == 4:
+    elif option == 4 and Jeffy["true"] == True:
       tprint(f"You tell {getJeffy()} to eat the ICE Agents. He does so, and you are able to escape the mob.\n")
       evolve_jeffy()
       Jeffy["damage"] += 15
@@ -634,7 +633,6 @@ def play_game():
         cartel["true"] = False
       if option == 2:
         tprint("You tell him to go fuck himself. He tells you that you'll regret that and leaves")
-        death()
     tprint("Now that the scientists are gone, you search the large lobby and find the employee room. There's a nice delicous cup of coffee that you drink 4 cups of (+15 health). You then go to the bathroom and find three doors.\n\nOptions:\n1. Straight ahead, labeled 'Employees Only.'\n2. Upstairs, partly hidden.\n3. To the left, guarded by Donald Trump.\n(Hint: think Outside The Box)\n")
     player["health"] += 15
     while True:
