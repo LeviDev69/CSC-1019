@@ -254,7 +254,7 @@ def credits():
   if "test" in user.lower():
     tprint("Debug mode was enabled; leaderboard results will not be recorded.\n")
   else:
-    record_leaderboard_result(user, ttb, score)
+    record_leaderboard_result(user, ttb, score_add_up(ttb))
 
 def skip_section(section_name):
   global CURRENT_SCENE_INDEX
@@ -718,7 +718,7 @@ def game():
   user = ""
   while user =="" and user != "Jeffy":
     user = qinput("Please enter your name: ")
-    if user.lower().strip() == "jeffy":
+    if user.lower().strip() in [tier.lower().strip() for tier in Jeffy["tiers"]]:
         tprint("There can only be one Jeffy. Please procede to the nearest cliff and jump off.\n")
         user = ""
   
