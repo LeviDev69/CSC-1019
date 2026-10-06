@@ -250,7 +250,10 @@ def credits(score):
   time.sleep(3)
   tprint("Something is coming in three days\n")
   tprint(f"Total time played: {ttb} seconds\n")
-  record_leaderboard_result(user, ttb, score)
+  if "test" in user.lower():
+    tprint("Debug mode was enabled; leaderboard results will not be recorded.\n")
+  else:
+    record_leaderboard_result(user, ttb, score)
 
 def skip_section(section_name):
   global CURRENT_SCENE_INDEX
@@ -662,42 +665,44 @@ def play_game():
   if not skip_section("Ending"):
     tprint("After you defeat the robot, he falls over, defeated.\n\"Why would you do that to me?\" He askes. You explain how you thought he would destroy the world. He tells you to ask him a question.\n")
     tprint("You are now talking to JackGPT.")
-    question = input("What would you like to ask JackGPT? (press c to continue) ")
-    if question.lower().strip() == "c":
-      tprint("You find out a crucial detail: he's dumb. Your parents were just nerds about a developing ai and everyone misunderstood.")
-    else:
-      tprint(random.choice([
-    "I do not know",
-    "I don't know",
-    "I have no idea",
-    "I have no clue",
-    "I am not sure",
-    "I'm not sure",
-    "I have no notion",
-    "I haven't the faintest idea",
-    "I haven't the foggiest idea",
-    "I haven't the foggiest",
-    "I have no concept",
-    "I cannot say",
-    "I'm unsure",
-    "I am uncertain",
-    "It is unknown to me",
-    "I'm at a loss",
-    "I do not possess that information",
-    "I am uninformed on this",
-    "I'm completely in the dark",
-    "I do not recall",
-    "I have zero idea",
-    "I don't have a clue",
-    "I couldn't tell you",
-    "Beat me",
-    "Who knows",
-    "God knows",
-    "Heaven knows",
-    "Your guess is as good as mine",
-    "I don't hold the answer",
-    "I am not aware",
-]))
+    question = ""
+    while question.lower().strip() != "c":
+      question = qinput("What would you like to ask JackGPT? (press c to continue) \n")
+      if question.lower().strip() == "c":
+        tprint("You find out a crucial detail: he's dumb. Your parents were just nerds about a developing ai and everyone misunderstood.")
+      else:
+        tprint(random.choice([
+      "I do not know",
+      "I don't know",
+      "I have no idea",
+      "I have no clue",
+      "I am not sure",
+      "I'm not sure",
+      "I have no notion",
+      "I haven't the faintest idea",
+      "I haven't the foggiest idea",
+      "I haven't the foggiest",
+      "I have no concept",
+      "I cannot say",
+      "I'm unsure",
+      "I am uncertain",
+      "It is unknown to me",
+      "I'm at a loss",
+      "I do not possess that information",
+      "I am uninformed on this",
+      "I'm completely in the dark",
+      "I do not recall",
+      "I have zero idea",
+      "I don't have a clue",
+      "I couldn't tell you",
+      "Beat me",
+      "Who knows",
+      "God knows",
+      "Heaven knows",
+      "Your guess is as good as mine",
+      "I don't hold the answer",
+      "I am not aware",
+  ])+"\n")
     tprint("You ask him where your parents are, and for once he does know. He tells you that they are in a secret chamber and he reveals them to you because he realizes you are just a kid. He releases your parents and you introduce them to all you companions. Things are back to normal now.\n")
     if Jeffy["true"]:
       tprint("You ride jeffy back to oregon.")
