@@ -577,11 +577,11 @@ def play_game():
       evolve_jeffy()
       Jeffy["damage"] += 15
     elif option == 4:
-      tprint("You tell Jeffy to eat Florida Man, he does so, and you are able to get the key.\n")
+      tprint(f"You tell {getJeffy()} to eat Florida Man, he does so, and you are able to get the key.\n")
       evolve_jeffy()
       Jeffy["damage"] += 15
   
-  if not skip_section("deported_scene"):
+  if not skip_section("Deported_Scene"):
 
     tprint("You have now collected all three keys and are ready to go back to the J.A.C.K. headquarters. as you leave florida a group of ICE Agents stop you and ask for your papers. When you cannon give them anything they tackle you and take you back to Mexico. Dumping you in a massive mosh pit of angry people trying to get back into the US.\n")
     tprint(f"Options:\n1. Try to get through the croud\n2.Try to reason with a nearby ICE Agent\n3.Start a mob and bum rush the ICE Agents\n4.Tell {getJeffy()} to eat the ICE Agents\n")
@@ -702,23 +702,28 @@ def play_game():
     end_time = time.time()
 def game():
   global user, player, Jeffy, Wilbur, Tom, start_time, end_time, ttb
+  global lives, RESUME_SCENE_INDEX, CURRENT_SCENE_INDEX
   show_leaderboard(load_leaderboard())
   user = qinput("Please enter your name: ")
   player = {"health": 20, "damage": 5}
   Jeffy = {"true": False, "damage": 5, "tier": 0, "tiers": ["Jeffy", "Jeffry", "Jeffred", "Geoffry"]}
   Wilbur = {"true": False, "damage": 15}
   Tom = {"true": False, "damage": 10}
+  lives = 3
+  RESUME_SCENE_INDEX = 0
+  CURRENT_SCENE_INDEX = 0
+  SCENE_SNAPSHOTS.clear()
   end_time = 0
   start_time = time.time()
   set_debug_mode(user)
-  try:
-    play_game()
-    return end_time > start_time
-  except PlayerDeath:
-    snapshot = SCENE_SNAPSHOTS.get(RESUME_SCENE_INDEX)
-    if snapshot is not None:
-      player, Jeffy, Tom, Wilbur = copy.deepcopy(snapshot)
-    return False
+  while True:
+    try:
+      play_game()
+      return end_time > start_time
+    except PlayerDeath:
+      snapshot = SCENE_SNAPSHOTS.get(RESUME_SCENE_INDEX)
+      if snapshot is not None:
+        player, Jeffy, Tom, Wilbur = copy.deepcopy(snapshot)
     
 
   
