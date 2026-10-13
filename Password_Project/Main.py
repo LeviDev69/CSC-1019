@@ -1,5 +1,5 @@
 import math
-
+import sys
 DEBUG_MODE = False
 
 
@@ -62,7 +62,7 @@ def do_menu():
     elif choice == "3":
         print(f"Shield health: {shield_health}/{full_health}")
     else:
-        print("Exiting the program. Goodbye!")
+        sys.exit("Exiting the program. Goodbye!")
         return
 
 
