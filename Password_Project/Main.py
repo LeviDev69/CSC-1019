@@ -30,6 +30,10 @@ def innit():
     print("You are an apprentice security mage forging a powerful shield to defend the realm. Each password you craft adds HP to your shield. Reach " + str(full_health) + " HP to complete your quest.")
 
 
+def log(password):
+    with open("password_log.txt", "a") as file:
+        file.write(password + "\n")
+
 def show_menu():
     print("Menu Options:\n1: Enter a password\n2: Learn how to make good passwords\n3: Check shield health\n4: Quit")
     return input("Please select an option:\n")
@@ -46,6 +50,7 @@ def check_common_passwords(password):
     return False
 
 def do_menu():
+    global shield_health
     choice = show_menu()
     if choice == "1":
         pas = ask_password()
@@ -63,6 +68,7 @@ def do_menu():
 
 def ask_password():
     return input("Please enter a password:\n")
+    
 
 
 def check_character_diversity(password):
@@ -73,7 +79,6 @@ def check_character_diversity(password):
             score -= 1
         previous_char = char
     return score
-
 
 def entropy(password):
     if not password:
@@ -90,6 +95,8 @@ def entropy(password):
     return entropy_value * total
 
 def score_password(password):
+    log(password)
+
     score = 0
     missing = []
 
@@ -148,23 +155,7 @@ def convert_points_to_health(points):
 def game():
     global shield_health, full_health
     while shield_health < full_health:
-        choice = show_menu()
-        if choice == "1":
-            pas = ask_password()
-            score = score_password(pas)
-            shield_points = convert_points_to_health(score)
-            shield_health += shield_points
-            if DEBUG_MODE:
-                print(f"DEBUG: shield_health={shield_health}/{full_health}, added={shield_points}")
-        elif choice == "2":
-            print("To create a strong password, follow these tips:\n- Use at least 8 characters\n- Include a mix of uppercase and lowercase letters\n- Include numbers\n")
-        elif choice == "3":
-            print(f"Shield health: {shield_health}/{full_health}")
-        elif choice == "4":
-            print("Exiting the program. Goodbye!")
-            return
-        else:
-            print("Invalid option. Please try again.")
+        do_menu()
 
     print(f"Shield health: {shield_health}/{full_health}")
     print("Your Phoenix Aegis is complete! The realm is safe.")
